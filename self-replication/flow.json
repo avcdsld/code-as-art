@@ -1,0 +1,25 @@
+{
+  "networks": {
+    "emulator": "127.0.0.1:3569",
+    "mainnet": "access.mainnet.nodes.onflow.org:9000",
+    "testnet": "access.devnet.nodes.onflow.org:9000"
+  },
+  "accounts": {
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "key": "0c12116913241430de82afa5379476e7f85b377def6bd9a7e5e87a08f137114c"
+    },
+    "emulator-account2": {
+      "address": "01cf0e2f2f715450",
+      "key": "119636fb1e1b535140a9312e399842d69b88fbed2b47e72b82265379e752e9ef"
+    }
+  },
+  "deployments": {
+    "emulator": {
+      "emulator-account": ["SelfReplication"]
+    }
+  },
+  "contracts": {
+    "SelfReplication": "./contracts/SelfReplication.cdc"
+  }
+}
