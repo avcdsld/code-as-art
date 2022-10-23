@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Semi</title>
+    <style type="text/css">
+      body {
+        margin: 0px;
+      }
+      .container {
+        position: relative;
+        width: 100vmin;
+        height: 100vmin;
+        background-color: #fff;
+      }
+      .content {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg
+        viewBox="0, 0, 256, 256"
+        xmlns="http://www.w3.org/2000/svg"
+        class="content"
+      >
+        <circle cx="45" cy="45" r="15" fill="#fffdb3" />
+        <image
+          x="30"
+          y="30"
+          width="30"
+          height="30"
+          preserveAspectRatio="xMidYMid meet"
+          xlink:href="./images/0.png"
+          data-type="0"
+        />
+        <image
+          x="50"
+          y="50"
+          width="30"
+          height="30"
+          preserveAspectRatio="xMidYMid meet"
+          xlink:href="./images/1.png"
+          data-type="1"
+        />
+        <image
+          x="80"
+          y="80"
+          width="30"
+          height="30"
+          preserveAspectRatio="xMidYMid meet"
+          xlink:href="./images/2.png"
+          data-type="2"
+        />
+        <image
+          x="120"
+          y="120"
+          width="30"
+          height="30"
+          preserveAspectRatio="xMidYMid meet"
+          xlink:href="./images/3.png"
+          data-type="3"
+        />
+        <image
+          x="150"
+          y="150"
+          width="30"
+          height="30"
+          preserveAspectRatio="xMidYMid meet"
+          xlink:href="./images/4.png"
+          data-type="4"
+        />
+      </svg>
+    </div>
+
+    <script>
+      const semis = document.querySelectorAll("image");
+      for (let i = 0, l = semis.length; l > i; i++) {
+        const file = semis[i].getAttribute("data-type");
+        const src = `./sounds/${file}.mp3`;
+        const audio = new Audio(src);
+        semis[i].addEventListener("mousedown", () => {
+          audio.currentTime = 0;
+          audio.play();
+        });
+      }
+    </script>
+  </body>
+</html>
