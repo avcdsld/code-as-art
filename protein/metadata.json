@@ -1,7 +1,7 @@
 {
-  "name": "Myoglobin",
-  "description": "Myoglobin was the first protein to have its atomic structure determined, revealing how it stores oxygen in muscle cells.",
-  "image": "https://ipfs.fleek.co/ipfs/bafybeicy7xicpz42zc4h3mjnsb2qxjxvwqypw4rmdlatyfbkmz7ljypal4",
-  "animation_url": "https://ipfs.fleek.co/ipfs/bafybeidudtvt5haapefm2lsi2iuedtfr7nxxd7iobcq2n6t33ssilqem2i?pdbid=1mbn",
-  "external_url": "https://www.rcsb.org/structure/1mbn"
+  "name": "Protein",
+  "description": "“Protein” is an NFT contract created with an awareness of associations between individual NFTs within the same smart contract. When an NFT is newly minted, it affects “all” other NFTs in the contract. This is very common with physical objects, but most NFTs as of 2022 do not have this property. This NFT contract gives such a natural property to digital objects.",
+  "image": "https://github.com/avcdsld/code-as-art/blob/main/protein/metadata/image.jpeg",
+  "animation_url": "https://github.com/avcdsld/code-as-art/blob/main/protein/metadata/model.glb",
+  "external_url": "https://www.rcsb.org/structure/1mnh"
 }
