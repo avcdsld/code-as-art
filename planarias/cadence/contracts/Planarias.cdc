@@ -5,77 +5,85 @@ pub contract Planarias {
     pub var population: UInt64
 
     pub event Begin()
-    // pub event Born(name: UInt64, genes: Genes) // TODO:
+    pub event Born(name: UInt64, genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?)
     pub event In(name: UInt64, to: Address?)
     pub event Out(name: UInt64, from: Address?)
     pub event Die(name: UInt64)
+    pub event End()
 
-    pub resource Gene {
-        pub let sequence: UInt256
-        pub let parentName: UInt64?
+    pub struct Genes {
+        pub let primary: UInt256
+        pub let secondary: UInt256
 
-        init(sequence: UInt256, parentName: UInt64?) {
-            self.sequence = sequence
-            self.parentName = parentName
+        init(primary: UInt256, secondary: UInt256) {
+            self.primary = primary
+            self.secondary = secondary
         }
-
-        // pub fun duplicate(): @Gene {
-
-        // }
     }
-
-    // pub struct Genes {
-    //     pub let primary: @Gene
-    //     pub let secondary: @Gene
-
-    //     init(primary: @Gene, secondary: @Gene) {
-    //         self.primary <- primary
-    //         self.secondary <- secondary
-    //     }
-    // }
 
     pub resource Planaria {
         pub let name: UInt64
-        pub let genes: @[Gene] // @[Gene; 2]
+        pub let genes: Genes
         pub let generation: UInt256
         pub let birthtime: UFix64
-        pub var copulatoryPouch: @[Gene]
+        pub let motherName: UInt64?
+        pub let fatherName: UInt64?
+        pub var copulatoryPouch: {UInt64: UInt256}
 
-        init(genes: @[Gene], generation: UInt256) {
+        init(genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?) {
             self.name = self.uuid
-            self.genes <- genes
+            self.genes = genes
             self.generation = generation
             self.birthtime = getCurrentBlock().timestamp
-            self.copulatoryPouch <- []
+            self.motherName = motherName
+            self.fatherName = fatherName
+            self.copulatoryPouch = {}
+
             Planarias.population = Planarias.population + 1
-            // emit Born(name: self.name, genes: <- self.genes) // TODO:
+            if Planarias.population == 1 {
+                emit Begin()
+            }
+
+            emit Born(
+                name: self.name,
+                genes: self.genes,
+                generation: self.generation,
+                motherName: self.motherName,
+                fatherName: self.fatherName
+            )
         }
 
         pub fun reproduceAsexually(): @Planaria {
-            let gene1Ref = (&self.genes[0] as! &Gene?)!
-            let gene2Ref = (&self.genes[1] as! &Gene?)!
-            let genes <- [
-                <- create Gene(sequence: gene1Ref.sequence, parentName: self.name),
-                <- create Gene(sequence: gene2Ref.sequence, parentName: self.name)
-            ]
-            return <- create Planaria(genes: <- genes, generation: self.generation + 1)
+            return <- create Planaria(
+                genes: self.genes,
+                generation: self.generation + 1,
+                motherName: self.name,
+                fatherName: nil
+            )
         }
 
         pub fun reproduceSexually(): @Planaria {
             pre {
                 self.copulatoryPouch.length > 0: "no father gene"
             }
-            let fatherGeneIndex = Int(unsafeRandom() % UInt64(self.copulatoryPouch.length))
-            let fatherGene <- self.copulatoryPouch.remove(at: fatherGeneIndex)
-            let motherGene <- self.meiosis()
-            return <- create Planaria(genes: <- [<- fatherGene, <- motherGene], generation: self.generation + 1)
+            let fatherNames = self.copulatoryPouch.keys
+            let fatherName = fatherNames[Int(unsafeRandom() % UInt64(fatherNames.length))]!
+            let fatherGene = self.copulatoryPouch.remove(key: fatherName)!
+            let motherGene = self.meiosis()
+            return <- create Planaria(
+                genes: Genes(primary: fatherGene, secondary: motherGene),
+                generation: self.generation + 1,
+                motherName: self.name,
+                fatherName: fatherName
+            )
         }
 
-        pub fun copulate(gene: @Gene) {
-            self.copulatoryPouch.append(<- gene)
+        pub fun copulate(father: &Planaria) {
+            let fatherGene = father.meiosis()
+            self.copulatoryPouch.insert(key: father.name, fatherGene)
         }
 
-        pub fun meiosis(): @Gene {
+        pub fun meiosis(): UInt256 {
             let randomChiasmaMask = fun (): UInt256 {
                 var mask: UInt256 = 0
                 var val: UInt256 = unsafeRandom() % UInt64(2) == 0 ? 0 : 1
@@ -96,18 +104,17 @@ pub contract Planarias {
                 return mask
             }
             let chiasma = randomChiasmaMask()
-            let gene1Ref = (&self.genes[0] as! &Gene?)!
-            let gene2Ref = (&self.genes[1] as! &Gene?)!
-            let sequence = (gene1Ref.sequence & chiasma) | (gene2Ref.sequence & (chiasma ^ UInt256.max))
+            let sequence = (self.genes.primary & chiasma) | (self.genes.secondary & (chiasma ^ UInt256.max))
             let mutation = UInt256(1 << Int(unsafeRandom() % UInt64(256)))
-            return <- create Gene(sequence: sequence ^ mutation, parentName: self.name)
+            return sequence ^ mutation
         }
 
         destroy() {
-            destroy self.genes
-            destroy self.copulatoryPouch
             emit Die(name: self.name)
             Planarias.population = Planarias.population - 1
+            if Planarias.population == 0 {
+                emit End()
+            }
         }
     }
 
@@ -148,17 +155,18 @@ pub contract Planarias {
     }
 
     pub fun generate(): @Planaria {
-        let newGene = fun (): @Gene {
-            return <- create Gene(
-                sequence: UInt256(unsafeRandom()) + (UInt256(unsafeRandom()) << 64) + (UInt256(unsafeRandom()) << 128) + (UInt256(unsafeRandom()) << 192),
-                parentName: nil
-            )
+        let newGene = fun (): UInt256 {
+            return UInt256(unsafeRandom()) + (UInt256(unsafeRandom()) << 64) + (UInt256(unsafeRandom()) << 128) + (UInt256(unsafeRandom()) << 192)
         }
-        return <- create Planaria(genes: <- [<- newGene(), <- newGene()], generation: 0)
+        return <- create Planaria(
+            genes: Genes(primary: newGene(), secondary: newGene()),
+            generation: 0,
+            motherName: nil,
+            fatherName: nil
+        )
     }
 
     init() {
-        emit Begin()
         self.population = 0
         self.account.save(<- create Habitat(), to: /storage/PlanariasHabitat)
         self.account.link<&Planarias.Habitat>(/public/PlanariasHabitat, target: /storage/PlanariasHabitat)

@@ -11,8 +11,7 @@ transaction {
         let planaria1 <- Planarias.generate()
         let planaria2 <- Planarias.generate()
 
-        let fatherGene <- planaria1.meiosis()
-        planaria2.copulate(gene: <- fatherGene)
+        planaria2.copulate(father: &planaria1 as &Planarias.Planaria)
         let planaria3 <- planaria2.reproduceSexually()
 
         habitat.in(planaria: <- planaria1)
