@@ -5,85 +5,19 @@ pub contract Planarias {
     pub var population: UInt64
 
     pub event Begin()
-    pub event Born(name: UInt64, genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?)
+    pub event Born(name: UInt64, genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?, meiosisAlgorithm: Type)
     pub event In(name: UInt64, to: Address?)
     pub event Out(name: UInt64, from: Address?)
     pub event Die(name: UInt64)
     pub event End()
 
-    pub struct Genes {
-        pub let primary: UInt256
-        pub let secondary: UInt256
-
-        init(primary: UInt256, secondary: UInt256) {
-            self.primary = primary
-            self.secondary = secondary
-        }
+    // Planarias' meiosis algorithm is open to change. Anyone can evolve them.
+    pub struct interface IMeiosisAlgorithm {
+        pub fun divide(genes: Planarias.Genes): UInt256
     }
 
-    pub resource Planaria {
-        pub let name: UInt64
-        pub let genes: Genes
-        pub let generation: UInt256
-        pub let birthtime: UFix64
-        pub let motherName: UInt64?
-        pub let fatherName: UInt64?
-        pub var copulatoryPouch: {UInt64: UInt256}
-
-        init(genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?) {
-            self.name = self.uuid
-            self.genes = genes
-            self.generation = generation
-            self.birthtime = getCurrentBlock().timestamp
-            self.motherName = motherName
-            self.fatherName = fatherName
-            self.copulatoryPouch = {}
-
-            Planarias.population = Planarias.population + 1
-            if Planarias.population == 1 {
-                emit Begin()
-            }
-
-            emit Born(
-                name: self.name,
-                genes: self.genes,
-                generation: self.generation,
-                motherName: self.motherName,
-                fatherName: self.fatherName
-            )
-        }
-
-        pub fun reproduceAsexually(): @Planaria {
-            return <- create Planaria(
-                genes: self.genes,
-                generation: self.generation + 1,
-                motherName: self.name,
-                fatherName: nil
-            )
-        }
-
-        pub fun reproduceSexually(): @Planaria {
-            pre {
-                self.copulatoryPouch.length > 0: "no father gene"
-            }
-            let fatherNames = self.copulatoryPouch.keys
-            let fatherName = fatherNames[Int(unsafeRandom() % UInt64(fatherNames.length))]!
-            let fatherGene = self.copulatoryPouch.remove(key: fatherName)!
-            let motherGene = self.meiosis()
-            return <- create Planaria(
-                genes: Genes(primary: fatherGene, secondary: motherGene),
-                generation: self.generation + 1,
-                motherName: self.name,
-                fatherName: fatherName
-            )
-        }
-
-        pub fun copulate(father: &Planaria) {
-            let fatherGene = father.meiosis()
-            self.copulatoryPouch.insert(key: father.name, fatherGene)
-        }
-
-        pub fun meiosis(): UInt256 {
+    pub struct MeiosisAlgorithm: IMeiosisAlgorithm {
+        pub fun divide(genes: Planarias.Genes): UInt256 {
             let randomChiasmaMask = fun (): UInt256 {
                 var mask: UInt256 = 0
                 var val: UInt256 = unsafeRandom() % UInt64(2) == 0 ? 0 : 1
@@ -104,9 +38,91 @@ pub contract Planarias {
                 return mask
             }
             let chiasma = randomChiasmaMask()
-            let sequence = (self.genes.primary & chiasma) | (self.genes.secondary & (chiasma ^ UInt256.max))
+            let sequence = (genes.primary & chiasma) | (genes.secondary & (chiasma ^ UInt256.max))
             let mutation = UInt256(1 << Int(unsafeRandom() % UInt64(256)))
             return sequence ^ mutation
+        }
+    }
+
+    pub struct Genes {
+        pub let primary: UInt256
+        pub let secondary: UInt256
+
+        init(primary: UInt256, secondary: UInt256) {
+            self.primary = primary
+            self.secondary = secondary
+        }
+    }
+
+    pub resource Planaria {
+        pub let name: UInt64
+        pub let genes: Genes
+        pub let generation: UInt256
+        pub let birthtime: UFix64
+        pub let motherName: UInt64?
+        pub let fatherName: UInt64?
+        pub var copulatoryPouch: {UInt64: UInt256}
+        pub var meiosisAlgorithm: {IMeiosisAlgorithm}
+
+        init(genes: Genes, generation: UInt256, motherName: UInt64?, fatherName: UInt64?, meiosisAlgorithm: {IMeiosisAlgorithm}) {
+            self.name = self.uuid
+            self.genes = genes
+            self.generation = generation
+            self.birthtime = getCurrentBlock().timestamp
+            self.motherName = motherName
+            self.fatherName = fatherName
+            self.copulatoryPouch = {}
+            self.meiosisAlgorithm = meiosisAlgorithm
+
+            Planarias.population = Planarias.population + 1
+            if Planarias.population == 1 {
+                emit Begin()
+            }
+
+            emit Born(
+                name: self.name,
+                genes: self.genes,
+                generation: self.generation,
+                motherName: self.motherName,
+                fatherName: self.fatherName,
+                meiosisAlgorithm: self.meiosisAlgorithm.getType()
+            )
+        }
+
+        pub fun reproduceAsexually(): @Planaria {
+            return <- create Planaria(
+                genes: self.genes,
+                generation: self.generation + 1,
+                motherName: self.name,
+                fatherName: nil,
+                meiosisAlgorithm: self.meiosisAlgorithm
+            )
+        }
+
+        pub fun reproduceSexually(): @Planaria {
+            pre {
+                self.copulatoryPouch.length > 0: "no father gene"
+            }
+            let fatherNames = self.copulatoryPouch.keys
+            let fatherName = fatherNames[Int(unsafeRandom() % UInt64(fatherNames.length))]!
+            let fatherGene = self.copulatoryPouch.remove(key: fatherName)!
+            let motherGene = self.meiosisAlgorithm.divide(genes: self.genes)
+            return <- create Planaria(
+                genes: Genes(primary: fatherGene, secondary: motherGene),
+                generation: self.generation + 1,
+                motherName: self.name,
+                fatherName: fatherName,
+                meiosisAlgorithm: self.meiosisAlgorithm
+            )
+        }
+
+        pub fun copulate(father: &Planaria) {
+            let fatherGene = father.meiosisAlgorithm.divide(genes: father.genes)
+            self.copulatoryPouch.insert(key: father.name, fatherGene)
+        }
+
+        pub fun inject(meiosisAlgorithm: {IMeiosisAlgorithm}) {
+            self.meiosisAlgorithm = meiosisAlgorithm
         }
 
         destroy() {
@@ -162,7 +178,8 @@ pub contract Planarias {
             genes: Genes(primary: newGene(), secondary: newGene()),
             generation: 0,
             motherName: nil,
-            fatherName: nil
+            fatherName: nil,
+            meiosisAlgorithm: MeiosisAlgorithm()
         )
     }
 
