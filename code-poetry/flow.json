@@ -4,7 +4,11 @@
 		"UniverseV2": "cadence/contracts/UniverseV2.cdc",
 		"Metabolism": "cadence/contracts/Metabolism.cdc",
 		"NeverEndingStory": "cadence/contracts/NeverEndingStory.cdc",
-		"StudyOfThings": "cadence/contracts/StudyOfThings.cdc"
+		"StudyOfThings": "cadence/contracts/StudyOfThings.cdc",
+		"AllTheDeities": "cadence/contracts/AllTheDeities.cdc",
+		"YaoyorozunoKami": "cadence/contracts/YaoyorozunoKami.cdc",
+		"Tanabata": "cadence/contracts/Tanabata.cdc",
+		"DateUtil": "cadence/contracts/DateUtil.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -28,7 +32,11 @@
 				"UniverseV2",
 				"Metabolism",
 				"NeverEndingStory",
-				"StudyOfThings"
+				"StudyOfThings",
+				"AllTheDeities",
+				"YaoyorozunoKami",
+				"Tanabata",
+				"DateUtil"
 			]
 		}
 	}
