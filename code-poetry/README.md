@@ -20,3 +20,5 @@
     - https://flowscan.org/transaction/f4e7dd7d614a8c19a26f252ec16b388276b7202a9908eda50e0821a891236cad/script
 
 - Deity (on Sui): https://suiexplorer.com/object/0x489a3e27f1e6f4e3e009cbf40223c077123266210bc086c979aa5e4e3a0d4cbb?network=mainnet
+
+- Deity (on Flow): https://flowscan.org/contract/A.23b08a725bc2533d.Deities

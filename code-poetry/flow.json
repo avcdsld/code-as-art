@@ -9,7 +9,8 @@
 		"YaoyorozunoKami": "cadence/contracts/YaoyorozunoKami.cdc",
 		"Tanabata": "cadence/contracts/Tanabata.cdc",
 		"DateUtil": "cadence/contracts/DateUtil.cdc",
-		"ObjectOrientedOntology": "cadence/contracts/ObjectOrientedOntology.cdc"
+		"ObjectOrientedOntology": "cadence/contracts/ObjectOrientedOntology.cdc",
+		"Deities": "cadence/contracts/Deities.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -38,7 +39,8 @@
 				"YaoyorozunoKami",
 				"Tanabata",
 				"DateUtil",
-				"ObjectOrientedOntology"
+				"ObjectOrientedOntology",
+				"Deities"
 			]
 		}
 	}
