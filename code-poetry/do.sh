@@ -13,3 +13,5 @@ flow transactions send ./cadence/transactions/yaoyorozuno_kami.cdc --signer emul
 flow scripts execute ./cadence/scripts/date_util_test.cdc
 
 flow transactions send ./cadence/transactions/tanabata.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/object_oriented_ontology.cdc --signer emulator-account
