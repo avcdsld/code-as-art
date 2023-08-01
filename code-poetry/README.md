@@ -22,3 +22,7 @@
 - Deity (on Sui): https://suiexplorer.com/object/0x489a3e27f1e6f4e3e009cbf40223c077123266210bc086c979aa5e4e3a0d4cbb?network=mainnet
 
 - Deity (on Flow): https://flowscan.org/contract/A.23b08a725bc2533d.Deities
+
+- Code is NOT Law:
+    - https://etherscan.io/address/0x695dde21412fd806dd59a510bbabf8a6bb485a87#code
+    - https://etherscan.io/address/0x7b8a994a5f1912e8ce55bd5800716869e6d14bfd#code
