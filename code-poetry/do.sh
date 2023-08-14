@@ -17,3 +17,5 @@ flow transactions send ./cadence/transactions/tanabata.cdc --signer emulator-acc
 flow transactions send ./cadence/transactions/object_oriented_ontology.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/concrete_alphabets.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/actual_infinity.cdc --signer emulator-account

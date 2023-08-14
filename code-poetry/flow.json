@@ -11,7 +11,8 @@
 		"DateUtil": "cadence/contracts/DateUtil.cdc",
 		"ObjectOrientedOntology": "cadence/contracts/ObjectOrientedOntology.cdc",
 		"Deities": "cadence/contracts/Deities.cdc",
-		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc"
+		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc",
+		"ActualInfinity": "cadence/contracts/ActualInfinity.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -42,7 +43,8 @@
 				"DateUtil",
 				"ObjectOrientedOntology",
 				"Deities",
-				"ConcreteAlphabets"
+				"ConcreteAlphabets",
+				"ActualInfinity"
 			]
 		}
 	}
