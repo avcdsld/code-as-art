@@ -10,7 +10,8 @@
 		"Tanabata": "cadence/contracts/Tanabata.cdc",
 		"DateUtil": "cadence/contracts/DateUtil.cdc",
 		"ObjectOrientedOntology": "cadence/contracts/ObjectOrientedOntology.cdc",
-		"Deities": "cadence/contracts/Deities.cdc"
+		"Deities": "cadence/contracts/Deities.cdc",
+		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -40,7 +41,8 @@
 				"Tanabata",
 				"DateUtil",
 				"ObjectOrientedOntology",
-				"Deities"
+				"Deities",
+				"ConcreteAlphabets"
 			]
 		}
 	}

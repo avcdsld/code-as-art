@@ -26,3 +26,6 @@
 - Code is NOT Law:
     - https://etherscan.io/address/0x695dde21412fd806dd59a510bbabf8a6bb485a87#code
     - https://etherscan.io/address/0x7b8a994a5f1912e8ce55bd5800716869e6d14bfd#code
+
+- Alphabet: https://flowscan.org/contract/A.23b08a725bc2533d.ConcreteAlphabets
+    - https://flowscan.org/transaction/1a19e1211f18b60352666566944ac6f60b1fe8065670acf0bcc6d3cf4bbb8e7c/script
