@@ -19,3 +19,5 @@ flow transactions send ./cadence/transactions/object_oriented_ontology.cdc --sig
 flow transactions send ./cadence/transactions/concrete_alphabets.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/actual_infinity.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/royalt_effects.cdc --signer emulator-account

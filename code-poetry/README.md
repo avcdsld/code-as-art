@@ -31,3 +31,5 @@
     - https://flowscan.org/transaction/1a19e1211f18b60352666566944ac6f60b1fe8065670acf0bcc6d3cf4bbb8e7c/script
 
 - ActualInfinity: https://flowscan.org/contract/A.23b08a725bc2533d.ActualInfinity
+
+- RoyaltEffects: https://flowscan.org/contract/A.23b08a725bc2533d.RoyaltEffects
