@@ -33,3 +33,5 @@
 - ActualInfinity: https://flowscan.org/contract/A.23b08a725bc2533d.ActualInfinity
 
 - RoyaltEffects: https://flowscan.org/contract/A.23b08a725bc2533d.RoyaltEffects
+
+- Quine: 

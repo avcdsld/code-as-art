@@ -13,7 +13,8 @@
 		"Deities": "cadence/contracts/Deities.cdc",
 		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc",
 		"ActualInfinity": "cadence/contracts/ActualInfinity.cdc",
-		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc"
+		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc",
+		"Quine": "cadence/contracts/Quine.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -28,6 +29,10 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "d2c3686da84d61c13627bdf2127866fe358165734f5470be792e6771901d2856"
+		},
+		"emulator-account2": {
+			"address": "01cf0e2f2f715450",
+			"key": "119636fb1e1b535140a9312e399842d69b88fbed2b47e72b82265379e752e9ef"
 		}
 	},
 	"deployments": {
@@ -46,7 +51,8 @@
 				"Deities",
 				"ConcreteAlphabets",
 				"ActualInfinity",
-				"RoyaltEffects"
+				"RoyaltEffects",
+				"Quine"
 			]
 		}
 	}
