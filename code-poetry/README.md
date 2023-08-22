@@ -34,4 +34,4 @@
 
 - RoyaltEffects: https://flowscan.org/contract/A.23b08a725bc2533d.RoyaltEffects
 
-- Quine: 
+- Quine: https://flowscan.org/contract/A.23b08a725bc2533d.Quine

@@ -2,6 +2,8 @@ import "Quine"
 
 transaction {
     prepare(account: AuthAccount) {
-        Quine.run(account: account)
+        Quine.execute(acct: account)
+
+        log(String.fromUTF8(account.contracts.get(name: "Quine")!.code))
     }
 }
