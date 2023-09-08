@@ -12,6 +12,7 @@
 		"ObjectOrientedOntology": "cadence/contracts/ObjectOrientedOntology.cdc",
 		"Deities": "cadence/contracts/Deities.cdc",
 		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc",
+		"ConcreteBlockPoetry": "cadence/contracts/ConcreteBlockPoetry.cdc",
 		"ActualInfinity": "cadence/contracts/ActualInfinity.cdc",
 		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc",
 		"Quine": "cadence/contracts/Quine.cdc"
@@ -50,6 +51,7 @@
 				"ObjectOrientedOntology",
 				"Deities",
 				"ConcreteAlphabets",
+				"ConcreteBlockPoetry",
 				"ActualInfinity",
 				"RoyaltEffects",
 				"Quine"
