@@ -13,6 +13,7 @@
 		"Deities": "cadence/contracts/Deities.cdc",
 		"ConcreteAlphabets": "cadence/contracts/ConcreteAlphabets.cdc",
 		"ConcreteBlockPoetry": "cadence/contracts/ConcreteBlockPoetry.cdc",
+		"BIP39WordList": "cadence/contracts/BIP39WordList.cdc",
 		"ActualInfinity": "cadence/contracts/ActualInfinity.cdc",
 		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc",
 		"Quine": "cadence/contracts/Quine.cdc"
@@ -52,6 +53,7 @@
 				"Deities",
 				"ConcreteAlphabets",
 				"ConcreteBlockPoetry",
+				"BIP39WordList",
 				"ActualInfinity",
 				"RoyaltEffects",
 				"Quine"
