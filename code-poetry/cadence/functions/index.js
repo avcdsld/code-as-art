@@ -7,6 +7,7 @@ const network = 'mainnet';
 
 const txInfo = {
     concreteBlockPoetryAddress: network === "mainnet" ? "0x23b08a725bc2533d" : "0x374e363b89924b5e",
+    undefinedCodeAddress: network === "mainnet" ? "0x23b08a725bc2533d" : "TODO",
     senderAddress: network === "mainnet" ? "0x2ff554854640b4f5" : "0x374e363b89924b5e",
     senderKeyId: 1,
 };
@@ -14,6 +15,11 @@ const txInfo = {
 exports.writePoem = functions.https.onRequest((_req, res) => {
     functions.logger.info("write poem:");
     sendWritePoemTx(res);
+});
+
+exports.findCode = functions.https.onRequest((_req, res) => {
+    functions.logger.info("find code:");
+    sendFindCodeTx(res);
 });
 
 async function sendWritePoemTx(res) {
@@ -33,6 +39,32 @@ transaction {
         let poetryCollectionRef = signer.borrow<&ConcreteBlockPoetry.PoetryCollection>(from: /storage/PoetryCollectionVol1)!
         let poetryLogic = ConcreteBlockPoetry.PoetryLogic()
         poetryCollectionRef.writePoem(poetryLogic: poetryLogic)
+    }
+}`;
+        const callback = () => {
+            res.send("OK");
+        }
+        await sendTx(txCode, callback);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function sendFindCodeTx(res) {
+    try {
+        const txCode = `\
+import UndefinedCode from ${txInfo.undefinedCodeAddress}
+
+transaction {
+    prepare(signer: AuthAccount) {
+        let code <- UndefinedCode.find()
+        let storagePath = StoragePath(identifier: "UndefinedCode".concat(code.point.toString()))!
+        if signer.borrow<&UndefinedCode.Code>(from: storagePath) == nil {
+            signer.save(<- code, to: storagePath)
+        } else {
+            let specialStoragePath = StoragePath(identifier: "UndefinedCode".concat(code.point.toString()).concat(getCurrentBlock().timestamp.toString()))!
+            signer.save(<- code, to: specialStoragePath)
+        }
     }
 }`;
         const callback = () => {
