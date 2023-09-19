@@ -30,3 +30,5 @@ flow accounts create --key 9805b096655528f34ebfcc6f2ce7fda85106c44f98ab84b1b2046
 flow transactions send ./cadence/transactions/quine.cdc --signer emulator-account2
 
 flow transactions send ./cadence/transactions/undefined_code.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/effective_life_time.cdc --signer emulator-account

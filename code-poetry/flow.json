@@ -17,7 +17,8 @@
 		"ActualInfinity": "cadence/contracts/ActualInfinity.cdc",
 		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc",
 		"Quine": "cadence/contracts/Quine.cdc",
-		"UndefinedCode": "cadence/contracts/UndefinedCode.cdc"
+		"UndefinedCode": "cadence/contracts/UndefinedCode.cdc",
+		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -58,7 +59,8 @@
 				"ActualInfinity",
 				"RoyaltEffects",
 				"Quine",
-				"UndefinedCode"
+				"UndefinedCode",
+				"EffectiveLifeTime"
 			]
 		}
 	}

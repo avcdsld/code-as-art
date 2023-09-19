@@ -39,3 +39,6 @@
 - RoyaltEffects: https://flowscan.org/contract/A.23b08a725bc2533d.RoyaltEffects
 
 - Quine: https://flowscan.org/contract/A.23b08a725bc2533d.Quine
+
+- EffectiveLifeTime: https://flowscan.org/contract/A.23b08a725bc2533d.EffectiveLifeTime
+    - https://flowscan.org/transaction/a488c5a5cffa2d2abd33a3f5333a11b7845398a6c3f537843135fc6339857a50
