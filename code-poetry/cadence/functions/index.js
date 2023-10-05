@@ -26,6 +26,7 @@ async function sendWritePoemTx(res) {
     try {
         const txCode = `\
 import ConcreteBlockPoetry from ${txInfo.concreteBlockPoetryAddress}
+import ConcreteBlockPoetryBIP39 from ${txInfo.concreteBlockPoetryAddress}
 
 transaction {
     prepare(signer: AuthAccount) {
@@ -39,6 +40,17 @@ transaction {
         let poetryCollectionRef = signer.borrow<&ConcreteBlockPoetry.PoetryCollection>(from: /storage/PoetryCollectionVol1)!
         let poetryLogic = ConcreteBlockPoetry.PoetryLogic()
         poetryCollectionRef.writePoem(poetryLogic: poetryLogic)
+
+        if signer.borrow<&ConcreteBlockPoetryBIP39.PoetryCollection>(from: /storage/PoetryCollectionBIP39Vol1) == nil {
+            signer.save(<- ConcreteBlockPoetryBIP39.createEmptyPoetryCollection(), to:  /storage/PoetryCollectionBIP39Vol1)
+
+            signer.link<&ConcreteBlockPoetryBIP39.PoetryCollection{ConcreteBlockPoetryBIP39.PoetryCollectionPublic}>(/public/PoetryCollectionBIP39Vol1, target: /storage/PoetryCollectionBIP39Vol1)
+            // let cap = signer.capabilities.storage.issue<&ConcreteBlockPoetryBIP39.PoetryCollection{ConcreteBlockPoetryBIP39.PoetryCollectionPublic}>(/storage/PoetryCollectionBIP39Vol1)
+            // signer.capabilities.publish(cap, at: /public/PoetryCollectionBIP39Vol1)
+        }
+        let poetryCollectionBIP39Ref = signer.borrow<&ConcreteBlockPoetryBIP39.PoetryCollection>(from: /storage/PoetryCollectionBIP39Vol1)!
+        let poetryLogicBIP39 = ConcreteBlockPoetryBIP39.PoetryLogic()
+        poetryCollectionBIP39Ref.writePoems(poetryLogic: poetryLogicBIP39)
     }
 }`;
         const callback = () => {

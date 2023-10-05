@@ -21,6 +21,8 @@ flow transactions send ./cadence/transactions/concrete_alphabets.cdc --signer em
 flow transactions send ./cadence/transactions/concrete_block_poetry.cdc --signer emulator-account
 flow scripts execute ./cadence/scripts/concrete_block_poetry.cdc f8d6e0586b0a20c7
 
+flow transactions send ./cadence/transactions/concrete_block_poetry_bip39.cdc --signer emulator-account --gas-limit 9999
+
 flow transactions send ./cadence/transactions/actual_infinity.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/royalt_effects.cdc --signer emulator-account
