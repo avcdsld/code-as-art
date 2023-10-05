@@ -2,43 +2,45 @@
 
 ## Deployment Info
 
-- Universe: https://flowscan.org/contract/A.23b08a725bc2533d.Universe
+- Universe: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Universe
 
-- NeverEndingStory: https://flowscan.org/contract/A.23b08a725bc2533d.NeverEndingStory
+- NeverEndingStory: https://www.flowdiver.io/contract/A.23b08a725bc2533d.NeverEndingStory
 
-- StudyOfThings: https://flowscan.org/contract/A.23b08a725bc2533d.StudyOfThings
+- StudyOfThings: https://www.flowdiver.io/contract/A.23b08a725bc2533d.StudyOfThings
 
-- Metabolism: https://flowscan.org/contract/A.23b08a725bc2533d.Metabolism
+- Metabolism: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Metabolism
 
-- Tanabata: https://flowscan.org/contract/A.23b08a725bc2533d.Tanabata/overview
-    - https://flowscan.org/transaction/71f3a61c1cf3bf53fa7e155f4a7ec6ebbe16bb640fefc72906a0c9c0ee20dd98/script
+- Tanabata: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Tanabata
+    - https://www.flowdiver.io/tx/71f3a61c1cf3bf53fa7e155f4a7ec6ebbe16bb640fefc72906a0c9c0ee20dd98
 
-- YaoyorozunoKami: https://flowscan.org/contract/A.23b08a725bc2533d.YaoyorozunoKami/overview
-    - https://flowscan.org/transaction/f664cebce1ed068b508a9c2ce3271e8fbb2020e997765412cc6986759aa9f9e7/script
+- YaoyorozunoKami: https://www.flowdiver.io/contract/A.23b08a725bc2533d.YaoyorozunoKami
+    - https://www.flowdiver.io/tx/f664cebce1ed068b508a9c2ce3271e8fbb2020e997765412cc6986759aa9f9e7
 
-- ObjectOrientedOntology: https://flowscan.org/contract/A.23b08a725bc2533d.ObjectOrientedOntology/overview
-    - https://flowscan.org/transaction/f4e7dd7d614a8c19a26f252ec16b388276b7202a9908eda50e0821a891236cad/script
+- ObjectOrientedOntology: https://www.flowdiver.io/contract/A.23b08a725bc2533d.ObjectOrientedOntology/overview
+    - https://www.flowdiver.io/tx/f4e7dd7d614a8c19a26f252ec16b388276b7202a9908eda50e0821a891236cad
 
 - Deity (on Sui): https://suiexplorer.com/object/0x489a3e27f1e6f4e3e009cbf40223c077123266210bc086c979aa5e4e3a0d4cbb?network=mainnet
 
-- Deity (on Flow): https://flowscan.org/contract/A.23b08a725bc2533d.Deities
+- Deity (on Flow): https://www.flowdiver.io/contract/A.23b08a725bc2533d.Deities
 
 - Code is NOT Law:
     - https://etherscan.io/address/0x695dde21412fd806dd59a510bbabf8a6bb485a87#code
     - https://etherscan.io/address/0x7b8a994a5f1912e8ce55bd5800716869e6d14bfd#code
 
-- ConcreteAlphabets: https://flowscan.org/contract/A.23b08a725bc2533d.ConcreteAlphabets
-    - https://flowscan.org/transaction/1a19e1211f18b60352666566944ac6f60b1fe8065670acf0bcc6d3cf4bbb8e7c/script
+- ConcreteAlphabets: https://www.flowdiver.io/contract/A.23b08a725bc2533d.ConcreteAlphabets
+    - https://www.flowdiver.io/tx/1a19e1211f18b60352666566944ac6f60b1fe8065670acf0bcc6d3cf4bbb8e7c
 
-- ConcreteBlockPoetry: https://flowscan.org/contract/A.23b08a725bc2533d.ConcreteBlockPoetry
+- ConcreteBlockPoetry: https://www.flowdiver.io/contract/A.23b08a725bc2533d.ConcreteBlockPoetry
 
-- BIP39WordList: https://flowscan.org/contract/A.23b08a725bc2533d.BIP39WordList
+- ConcreteBlockPoetryBIP39: https://www.flowdiver.io/contract/A.23b08a725bc2533d.ConcreteBlockPoetryBIP39
 
-- ActualInfinity: https://flowscan.org/contract/A.23b08a725bc2533d.ActualInfinity
+- BIP39WordList: https://www.flowdiver.io/contract/A.23b08a725bc2533d.BIP39WordList
 
-- RoyaltEffects: https://flowscan.org/contract/A.23b08a725bc2533d.RoyaltEffects
+- ActualInfinity: https://www.flowdiver.io/contract/A.23b08a725bc2533d.ActualInfinity
 
-- Quine: https://flowscan.org/contract/A.23b08a725bc2533d.Quine
+- RoyaltEffects: https://www.flowdiver.io/contract/A.23b08a725bc2533d.RoyaltEffects
 
-- EffectiveLifeTime: https://flowscan.org/contract/A.23b08a725bc2533d.EffectiveLifeTime
-    - https://flowscan.org/transaction/a488c5a5cffa2d2abd33a3f5333a11b7845398a6c3f537843135fc6339857a50
+- Quine: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Quine
+
+- EffectiveLifeTime: https://www.flowdiver.io/contract/A.23b08a725bc2533d.EffectiveLifeTime
+    - https://www.flowdiver.io/tx/a488c5a5cffa2d2abd33a3f5333a11b7845398a6c3f537843135fc6339857a50
