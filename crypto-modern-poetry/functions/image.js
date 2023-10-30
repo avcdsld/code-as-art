@@ -32,21 +32,21 @@ exports.genSvg = ({ poem, words, blockHeight }) => {
     const poemLines = poem.trim().split('\n').flatMap(line => breakTextIntoLines(line, 42)); // 21全角文字分
 
     const formattedPoem = poemLines.map((line, idx) => {
-        const yPosition = 70 + (idx * 26);
-        return `<text x="30" y="${yPosition}" font-family="'IPAexMincho,'IPAMincho'" fill="white" font-size="16">${line}</text>`;
+        const yPosition = 55 + (idx * 26);
+        return `<text x="30" y="${yPosition}" font-family="'IPAexMincho','IPAMincho'" fill="white" font-size="16">${line}</text>`;
     }).join('');
 
     const wordsLines = breakTextIntoLines(words, 56); // 28全角文字分
     const formattedWords = wordsLines.map((line, idx) => {
-        const yPosition = 330 + (idx * 16);
-        return `<text x="30" y="${yPosition}" font-family="'IPAexMincho,'IPAMincho'" fill="white" font-size="12">${line}</text>`;
+        const yPosition = 345 + (idx * 16);
+        return `<text x="30" y="${yPosition}" font-family="'IPAexMincho','IPAMincho'" fill="white" font-size="12">${line}</text>`;
     }).join('');
 
     const svgString = `
 <svg width="800" height="800" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
     <rect width="400" height="400" fill="${randomColor}" />
     ${formattedPoem}
-    <text x="30" y="310" font-family="'IPAexMincho,'IPAMincho'" fill="white" font-size="14">#${blockHeight}</text>
+    <text x="30" y="325" font-family="'IPAexMincho','IPAMincho'" fill="white" font-size="13">#${blockHeight}</text>
     ${formattedWords}
 </svg>`;
     
