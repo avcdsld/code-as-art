@@ -1,0 +1,29 @@
+{
+	"contracts": {
+		"BIP39WordList": "cadence/contracts/BIP39WordList.cdc",
+		"MnemonicPoetry": "cadence/contracts/MnemonicPoetry.cdc"
+	},
+	"networks": {
+		"emulator": "127.0.0.1:3569",
+		"mainnet": "access.mainnet.nodes.onflow.org:9000",
+		"testnet": "access.devnet.nodes.onflow.org:9000"
+	},
+	"accounts": {
+		"default": {
+			"address": "e03daebed8ca0615",
+			"key": "679747d8ae180b16527ae0fe27ef4650a25b567d6e987dd163748248a2698fa0"
+		},
+		"emulator-account": {
+			"address": "f8d6e0586b0a20c7",
+			"key": "d2c3686da84d61c13627bdf2127866fe358165734f5470be792e6771901d2856"
+		}
+	},
+	"deployments": {
+		"emulator": {
+			"emulator-account": [
+				"BIP39WordList",
+				"MnemonicPoetry"
+			]
+		}
+	}
+}
