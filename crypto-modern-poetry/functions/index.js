@@ -5,7 +5,11 @@ const { genPoem } = require('./openai');
 const { genSvg, svgToPng } = require('./image');
 const { postTweetWithPng } = require('./twitter');
 
-exports.findMnemonic = onSchedule('every day 00:00', async (event) => {
+exports.findMnemonic = onSchedule({
+    schedule: 'every day 00:00',
+    timeZone: 'Asia/Tokyo',
+    timeoutSeconds: 120,
+}, async (event) => {
     logger.info('findMnemonic:');
     try {
         await findMnemonic();
