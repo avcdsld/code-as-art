@@ -44,3 +44,6 @@
 
 - EffectiveLifeTime: https://www.flowdiver.io/contract/A.23b08a725bc2533d.EffectiveLifeTime
     - https://www.flowdiver.io/tx/a488c5a5cffa2d2abd33a3f5333a11b7845398a6c3f537843135fc6339857a50
+
+- Setsuna: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Setsuna
+    - https://www.flowdiver.io/tx/bfdab9517030fe9fb46e86530ad9314370f3ffb1a3b0d4434e71434b3cd82672?tab=overview
