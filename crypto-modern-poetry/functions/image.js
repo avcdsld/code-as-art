@@ -22,6 +22,9 @@ exports.genSvg = ({ poem, words, blockHeight }) => {
             while (getLength(str.substr(0, len)) > maxLength) {
                 len--;
             }
+            if (str[len] === '。' || str[len] === '、') {
+                len++;
+            }
             result.push(str.substr(0, len));
             str = str.substr(len);
         }
@@ -29,7 +32,10 @@ exports.genSvg = ({ poem, words, blockHeight }) => {
         return result;
     };
 
-    const poemLines = poem.trim().split('\n').flatMap(line => breakTextIntoLines(line, 42)); // 21全角文字分
+    const processNewlines = (str) => {
+        return str.split('\n').flatMap(line => line === '' ? [''] : breakTextIntoLines(line, 42));
+    };
+    const poemLines = processNewlines(poem.trim());
 
     const formattedPoem = poemLines.map((line, idx) => {
         const yPosition = 55 + (idx * 26);
