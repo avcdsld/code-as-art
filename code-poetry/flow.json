@@ -25,7 +25,8 @@
 		"RoyaltEffects": "cadence/contracts/RoyaltEffects.cdc",
 		"Quine": "cadence/contracts/Quine.cdc",
 		"UndefinedCode": "cadence/contracts/UndefinedCode.cdc",
-		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc"
+		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc",
+		"Setsuna": "cadence/contracts/Setsuna.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -74,7 +75,8 @@
 				"RoyaltEffects",
 				"Quine",
 				"UndefinedCode",
-				"EffectiveLifeTime"
+				"EffectiveLifeTime",
+				"Setsuna"
 			]
 		}
 	}

@@ -34,3 +34,5 @@ flow transactions send ./cadence/transactions/quine.cdc --signer emulator-accoun
 flow transactions send ./cadence/transactions/undefined_code.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/effective_life_time.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/setsuna.cdc --signer emulator-account
