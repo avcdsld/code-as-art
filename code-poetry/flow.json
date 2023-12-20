@@ -26,7 +26,8 @@
 		"Quine": "cadence/contracts/Quine.cdc",
 		"UndefinedCode": "cadence/contracts/UndefinedCode.cdc",
 		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc",
-		"Setsuna": "cadence/contracts/Setsuna.cdc"
+		"Setsuna": "cadence/contracts/Setsuna.cdc",
+		"Waterfalls": "cadence/contracts/Waterfalls.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -76,7 +77,8 @@
 				"Quine",
 				"UndefinedCode",
 				"EffectiveLifeTime",
-				"Setsuna"
+				"Setsuna",
+				"Waterfalls"
 			]
 		}
 	}

@@ -1,0 +1,31 @@
+pub contract Waterfall {
+
+    pub resource Carp {
+        pub(set) var chance: Bool
+
+        init() {
+            self.chance = false
+        }
+    }
+
+    pub resource Dragon {
+        priv let beginning: @Carp
+
+        init(beginning: @Carp) {
+            self.beginning <- beginning
+        }
+
+        destroy() {
+            destroy self.beginning
+        }
+    }
+
+    pub fun climb(carp: @Carp, alternative: ((): Bool)?): @Dragon? {
+        let success = revertibleRandom() % 10000 == 0
+        if success {
+            return <- create Dragon(beginning: <- carp)
+        }
+        destroy carp
+        return nil
+    }
+}

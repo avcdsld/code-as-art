@@ -1,0 +1,18 @@
+pub contract Waterfall {
+
+    pub resource Dragon {}
+
+    pub resource Carp {}
+
+    pub fun hatch(): @Carp {
+        return <- create Carp()
+    }
+
+    pub fun climb(carp: @Carp): @Dragon? {
+        destroy carp
+        if revertibleRandom() % 10000 != 0 {
+            return nil
+        }
+        return <- create Dragon()
+    }
+}

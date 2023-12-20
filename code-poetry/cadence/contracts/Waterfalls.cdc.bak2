@@ -1,0 +1,22 @@
+pub contract Waterfall {
+
+    pub resource Carp {}
+
+    pub resource Dragon {
+        pub let source: @Carp
+        init (source: @Carp) { self.source <- source }
+        destroy() { destroy self.source }
+    }
+
+    pub fun hatch(): @Carp {
+        return <- create Carp()
+    }
+
+    pub fun climb(carp: @Carp): @Dragon? {
+        if revertibleRandom() % 10000 != 0 {
+            destroy carp
+            return nil
+        }
+        return <- create Dragon(source: <- carp)
+    }
+}

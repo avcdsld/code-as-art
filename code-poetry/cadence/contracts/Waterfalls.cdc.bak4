@@ -1,0 +1,18 @@
+pub contract Taki {
+
+    pub resource Koi {}
+
+    pub resource Ryu {}
+
+    pub fun hatch(): @Koi {
+        return <- create Koi()
+    }
+
+    pub fun climb(koi: @Koi): @Ryu? {
+        destroy koi
+        if revertibleRandom() % 10000 != 0 {
+            return nil
+        }
+        return <- create Ryu()
+    }
+}
