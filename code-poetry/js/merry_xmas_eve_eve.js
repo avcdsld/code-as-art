@@ -1,4 +1,4 @@
-const today = new Date(2023, 0, 1),
+const today = new Date(),
       xmas = new Date(today.getFullYear(), 11, 25),
       diff = (xmas - today) / 86400000,
       eveCount = Math.ceil(diff);
