@@ -50,3 +50,6 @@
 
 - Waterfalls: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Waterfalls
     - https://www.flowdiver.io/tx/e2e92674b9e983d708e8c0e3ef74dff6e67bd95c100f9b1e178d0238d13d2da7
+
+- Purification: https://www.flowdiver.io/contract/A.23b08a725bc2533d.Purification
+    - https://www.flowdiver.io/tx/a2190043a284885c63e77bce769543f09cf518c824885e0ff775a1db5053ad16

@@ -38,3 +38,5 @@ flow transactions send ./cadence/transactions/effective_life_time.cdc --signer e
 flow transactions send ./cadence/transactions/setsuna.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/waterfalls.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/purification.cdc --signer emulator-account

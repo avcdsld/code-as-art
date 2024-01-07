@@ -27,7 +27,8 @@
 		"UndefinedCode": "cadence/contracts/UndefinedCode.cdc",
 		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc",
 		"Setsuna": "cadence/contracts/Setsuna.cdc",
-		"Waterfalls": "cadence/contracts/Waterfalls.cdc"
+		"Waterfalls": "cadence/contracts/Waterfalls.cdc",
+		"Purification": "cadence/contracts/Purification.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -78,7 +79,8 @@
 				"UndefinedCode",
 				"EffectiveLifeTime",
 				"Setsuna",
-				"Waterfalls"
+				"Waterfalls",
+				"Purification"
 			]
 		}
 	}
