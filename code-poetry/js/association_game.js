@@ -1,0 +1,1 @@
+cloud = () => water = () => hail = () => snow = () => ice = () => glacier = () => mountain = () => continent = () => planet = () => star = () => galaxy = () => null
