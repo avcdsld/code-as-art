@@ -28,7 +28,8 @@
 		"EffectiveLifeTime": "cadence/contracts/EffectiveLifeTime.cdc",
 		"Setsuna": "cadence/contracts/Setsuna.cdc",
 		"Waterfalls": "cadence/contracts/Waterfalls.cdc",
-		"Purification": "cadence/contracts/Purification.cdc"
+		"Purification": "cadence/contracts/Purification.cdc",
+		"FirstFinalTouch": "cadence/contracts/FirstFinalTouch.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -80,7 +81,8 @@
 				"EffectiveLifeTime",
 				"Setsuna",
 				"Waterfalls",
-				"Purification"
+				"Purification",
+				"FirstFinalTouch"
 			]
 		}
 	}

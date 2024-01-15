@@ -40,3 +40,5 @@ flow transactions send ./cadence/transactions/setsuna.cdc --signer emulator-acco
 flow transactions send ./cadence/transactions/waterfalls.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/purification.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/first_final_touch.cdc --signer emulator-account
