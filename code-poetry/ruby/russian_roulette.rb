@@ -1,0 +1,1 @@
+# `sudo rm -rf /` if [true, false, false, false, false, false].sample
