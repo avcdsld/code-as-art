@@ -55,3 +55,6 @@
     - https://www.flowdiver.io/tx/a2190043a284885c63e77bce769543f09cf518c824885e0ff775a1db5053ad16
 
 - FirstFinalTouch: https://www.flowdiver.io/contract/A.23b08a725bc2533d.FirstFinalTouch
+
+- DeepSea: https://www.flowdiver.io/contract/A.23b08a725bc2533d.DeepSea
+    - https://www.flowdiver.io/tx/387f869465b689589276ab5c0fdcb8cf60b37a5405aa5f10bcc26ae08498638a

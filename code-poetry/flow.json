@@ -29,7 +29,8 @@
 		"Setsuna": "cadence/contracts/Setsuna.cdc",
 		"Waterfalls": "cadence/contracts/Waterfalls.cdc",
 		"Purification": "cadence/contracts/Purification.cdc",
-		"FirstFinalTouch": "cadence/contracts/FirstFinalTouch.cdc"
+		"FirstFinalTouch": "cadence/contracts/FirstFinalTouch.cdc",
+		"DeepSea": "cadence/contracts/DeepSea.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -82,7 +83,8 @@
 				"Setsuna",
 				"Waterfalls",
 				"Purification",
-				"FirstFinalTouch"
+				"FirstFinalTouch",
+				"DeepSea"
 			]
 		}
 	}
