@@ -3,7 +3,8 @@ const logger = require('firebase-functions/logger');
 const { findMnemonic, getRecentMnemonic, writePoem } = require('./flow');
 const { genPoem } = require('./openai');
 const { genSvg, svgToPng } = require('./image');
-const { postTweetWithPng } = require('./twitter');
+const twitter = require('./twitter');
+const bsky = require('./bsky');
 
 exports.findMnemonic = onSchedule({
     schedule: 'every day 00:00',
@@ -39,8 +40,11 @@ exports.generatePoem = onSchedule({
         const png = await svgToPng({ svg });
         logger.info('png convert done');
 
-        await postTweetWithPng({ png, words });
+        await twitter.postTweetWithPng({ png, words });
         logger.info('tweet done');
+
+        await bsky.postTweetWithPng({ png, words, poem });
+        logger.info('bsky post done');
 
         await writePoem({ words, poem });
         logger.info('write done');
