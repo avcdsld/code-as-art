@@ -15,7 +15,7 @@ exports.postTweetWithPng = async ({ png, words, poem }) => {
     const { data } = await agent.uploadBlob(png, { encoding: 'image/png' });
     await agent.post({
         text: `${words}
-#ニーモニックの詩 #テスト`,
+#ニーモニックの詩`,
         embed: {
             $type: 'app.bsky.embed.images',
             images: [
