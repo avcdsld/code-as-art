@@ -44,3 +44,5 @@ flow transactions send ./cadence/transactions/purification.cdc --signer emulator
 flow transactions send ./cadence/transactions/first_final_touch.cdc --signer emulator-account
 
 flow transactions send ./cadence/transactions/deep_sea.cdc --signer emulator-account
+
+flow transactions send ./cadence/transactions/media_arts.cdc --signer emulator-account

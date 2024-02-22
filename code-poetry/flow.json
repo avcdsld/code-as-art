@@ -30,7 +30,8 @@
 		"Waterfalls": "cadence/contracts/Waterfalls.cdc",
 		"Purification": "cadence/contracts/Purification.cdc",
 		"FirstFinalTouch": "cadence/contracts/FirstFinalTouch.cdc",
-		"DeepSea": "cadence/contracts/DeepSea.cdc"
+		"DeepSea": "cadence/contracts/DeepSea.cdc",
+		"MediaArts": "cadence/contracts/MediaArts.cdc"
 	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
@@ -84,7 +85,8 @@
 				"Waterfalls",
 				"Purification",
 				"FirstFinalTouch",
-				"DeepSea"
+				"DeepSea",
+				"MediaArts"
 			]
 		}
 	}
