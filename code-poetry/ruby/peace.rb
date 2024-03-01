@@ -1,7 +1,7 @@
 class World
   def initialize
     @peace = true
-    Thread.new { run_world_cycle }　
+    Thread.new { run_world_cycle }
     Thread.new { recover_peace }
   end
 
