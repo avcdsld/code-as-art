@@ -17,7 +17,8 @@ exports.genPoem = async ({ words }) => {
     const chatCompletion = await openai.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
         // model: 'gpt-3.5-turbo',
-        model: 'gpt-4',
+        // model: 'gpt-4', // 2023/10/30 - 2024/05/15
+        model: 'gpt-4o', // 2024/05/16 -
     }, {
         timeout: 60 * 1000,
     });
