@@ -18,11 +18,6 @@ access(all) contract Fountain {
         }
       }
     }
-
-    destroy() {
-      destroy self.pool
-      destroy self.next
-    }
   }
 
   access(all) let basin: @[Basin]
