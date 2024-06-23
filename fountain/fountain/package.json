@@ -1,0 +1,10 @@
+{
+  "name": "fountain",
+  "version": "0.3.1",
+  "private": true,
+  "scripts": {
+    "flow:dev": "flow dev",
+    "flow:emulator": "flow emulator",
+    "flow:dev-wallet": "flow dev-wallet"
+  }
+}
