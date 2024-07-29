@@ -1,7 +1,7 @@
 import SelfReplication from "../contracts/SelfReplication.cdc"
 
 transaction {
-    prepare(account: AuthAccount) {
+    prepare(account: auth(AddContract) &Account) {
         SelfReplication.replicate(account: account)
     }
 }

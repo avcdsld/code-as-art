@@ -8,16 +8,30 @@
     "emulator-account": {
       "address": "f8d6e0586b0a20c7",
       "key": "0c12116913241430de82afa5379476e7f85b377def6bd9a7e5e87a08f137114c"
-    }
+    },
+    "mainnet-account": { 
+			"address": "bdbe70269ecb648a",
+			"key": {
+				"index": 3,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
+		}
   },
   "deployments": {
     "emulator": {
-      "emulator-account": ["NonFungibleToken", "MetadataViews", "Gift"]
+      "emulator-account": ["NonFungibleToken", "MetadataViews", "ViewResolver", "Gift"]
+    },
+    "mainnet": {
+      "mainnet-account": ["Gift"]
     }
   },
   "contracts": {
     "NonFungibleToken": "./contracts/NonFungibleToken.cdc",
     "MetadataViews": "./contracts/MetadataViews.cdc",
+    "ViewResolver": "./contracts/ViewResolver.cdc",
     "Gift": "./contracts/Gift.cdc"
   }
 }

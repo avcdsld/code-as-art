@@ -1,13 +1,13 @@
 import "MnemonicPoetry"
 
 transaction(words: String, poem: String) {
-    prepare(signer: AuthAccount) {
-        if signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
-            signer.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
-            let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>(/storage/MnemonicPoetryCollection)
+    prepare(signer: auth(SaveValue, BorrowValue, StorageCapabilities, PublishCapability) &Account) {
+        if signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
+            signer.storage.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
+            let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection>(/storage/MnemonicPoetryCollection)
             signer.capabilities.publish(cap, at: /public/MnemonicPoetryCollection)
         }
-        let collectionRef = signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
+        let collectionRef = signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
         let mnemonics = collectionRef.mnemonics
         if mnemonics.length == 0 {
             panic("Not found")
@@ -15,7 +15,8 @@ transaction(words: String, poem: String) {
 
         var i = mnemonics.length - 1
         while i >= 0 {
-            let mnemonic = mnemonics[i]
+            let mnemonic = collectionRef.getMnemonic(index: i)
+
             var w = ""
             var j = 0
             while j < mnemonic.words.length {

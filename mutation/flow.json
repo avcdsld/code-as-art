@@ -10,16 +10,35 @@
       "key": "0c12116913241430de82afa5379476e7f85b377def6bd9a7e5e87a08f137114c"
     },
     "emulator-account2": {
-      "address": "01cf0e2f2f715450",
+      "address": "179b6b1cb6755e31",
       "key": "119636fb1e1b535140a9312e399842d69b88fbed2b47e72b82265379e752e9ef"
-    }
+    },
+    "mainnet-account": { 
+			"address": "fe437b573d368d6a",
+			"key": {
+				"index": 3,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
+		}
   },
   "deployments": {
     "emulator": {
       "emulator-account": ["Mutation"]
+    },
+    "mainnet": {
+      "mainnet-account": [
+        "Mutation",
+        "MXtation",
+        "MutaXion"
+      ]
     }
   },
   "contracts": {
-    "Mutation": "./contracts/Mutation.cdc"
+    "Mutation": "./contracts/Mutation.cdc",
+    "MXtation": "./contracts/MXtation.cdc",
+    "MutaXion": "./contracts/MutaXion.cdc"
   }
 }

@@ -1,8 +1,8 @@
 import "DeepSea"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: auth(SaveValue) &Account) {
         let deepSea <- DeepSea.dive()
-        signer.save(<- deepSea, to: /storage/DeepSea)
+        signer.storage.save(<- deepSea, to: /storage/DeepSea)
     }
 }

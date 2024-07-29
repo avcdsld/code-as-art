@@ -2,10 +2,10 @@ import "DigitalNativeArt"
 
 transaction {
 
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
 
         // This is the first creation of an `Art` resource object in the digital world.
-        var art <- DigitalNativeArt.create()
+        var art <- DigitalNativeArt.createArt()
 
         // This is the first destruction of an `Art` resource object in the digital world.
         destroy art

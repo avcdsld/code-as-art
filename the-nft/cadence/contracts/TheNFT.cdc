@@ -1,72 +1,67 @@
 // What makes an NFT an NFT?
 
-import NonFungibleToken from "./NonFungibleToken.cdc"
-import MetadataViews from "./MetadataViews.cdc"
+import "NonFungibleToken"
+import "ViewResolver"
+import "MetadataViews"
 
-pub contract TheNFT: NonFungibleToken {
-    pub let CollectionPublicPath: PublicPath
-    pub let CollectionStoragePath: StoragePath
-    pub var totalSupply: UInt64
-    pub var baseUrl: String
+access(all) contract TheNFT: NonFungibleToken {
+    access(all) let CollectionPublicPath: PublicPath
+    access(all) let CollectionStoragePath: StoragePath
+    access(all) var totalSupply: UInt64
+    access(all) var baseUrl: String
 
-    pub event ContractInitialized()
-    pub event Withdraw(id: UInt64, from: Address?)
-    pub event Deposit(id: UInt64, to: Address?)
-    pub event Mint(id: UInt64)
-    pub event Destroy(id: UInt64)
-
-    pub struct TextPlain {
-        pub let id: UInt64
+    access(all) struct TextPlain {
+        access(all) let id: UInt64
 
         init(id: UInt64) {
             self.id = id
         }
 
-        pub fun data(): String {
+        access(all) fun data(): String {
             return "data:text/plain,%23".concat(self.id.toString())
         }
     }
 
-    pub struct TextHtml {
-        pub let id: UInt64
+    access(all) struct TextHtml {
+        access(all) let id: UInt64
 
         init(id: UInt64) {
             self.id = id
         }
 
-        pub fun data(): String {
+        access(all) fun data(): String {
             return "data:text/html,%3C%21DOCTYPE%20html%3E%3Chtml%3E%3Cdiv%20style%3D%22display%3A%20flex%3B%20justify-content%3A%20center%3B%20align-items%3A%20center%3B%20height%3A%20100vh%3B%22%3E%3Ch1%3E%23"
                 .concat(self.id.toString())
                 .concat("%3C%2Fh1%3E%3C%2Fdiv%3E%3C%2Fhtml%3E")
         }
     }
 
-    pub struct ImageSvg {
-        pub let id: UInt64
+    access(all) struct ImageSvg {
+        access(all) let id: UInt64
 
         init(id: UInt64) {
             self.id = id
         }
 
-        pub fun data(): String {
+        access(all) fun data(): String {
             return "data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%0D%0A%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22100%22%20height%3D%22100%22%20fill%3D%22%23000000%22%20%2F%3E%0D%0A%3Ctext%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%20fill%3D%22%23ffffff%22%3E%0D%0A%23"
                 .concat(self.id.toString())
                 .concat("%0D%0A%3C%2Ftext%3E%3C%2Fsvg%3E%0D%0A")
         }
     }
 
-    pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
-        pub let id: UInt64
+    access(all) resource NFT: NonFungibleToken.NFT {
+        access(all) let id: UInt64
 
         init(id: UInt64) {
             self.id = id
         }
 
-        pub fun whatAreYou(): String {
+        access(all) fun whatAreYou(): String {
             return self.id.toString()
         }
 
-        pub fun getViews(): [Type] {
+        access(all) view fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>(),
                 Type<TextPlain>(),
@@ -75,7 +70,7 @@ pub contract TheNFT: NonFungibleToken {
             ]
         }
 
-        pub fun resolveView(_ view: Type): AnyStruct? {
+        access(all) fun resolveView(_ view: Type): AnyStruct? {
             switch view {
                 case Type<MetadataViews.Display>():
                     return MetadataViews.Display(
@@ -93,80 +88,97 @@ pub contract TheNFT: NonFungibleToken {
             return nil
         }
 
-        destroy() {
-            emit Destroy(id: self.id)
+        access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <- TheNFT.createEmptyCollection(nftType: Type<@TheNFT.NFT>())
         }
     }
 
-    pub resource interface TheNFTCollectionPublic {
-        pub fun deposit(token: @NonFungibleToken.NFT)
-        pub fun getIDs(): [UInt64]
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
-        pub fun borrowTheNFT(id: UInt64): &TheNFT.NFT? {
+    access(all) resource interface TheNFTCollectionPublic {
+        access(all) fun deposit(token: @{NonFungibleToken.NFT})
+        access(all) view fun getIDs(): [UInt64]
+        access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}?
+        access(all) view fun borrowTheNFT(_ id: UInt64): &TheNFT.NFT? {
             post {
                 (result == nil) || (result?.id == id): "Cannot borrow TheNFT reference"
             }
         }
     }
 
-    pub resource Collection: TheNFTCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
-        pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
+    access(all) resource Collection: TheNFTCollectionPublic, NonFungibleToken.Collection {
+        access(all) var ownedNFTs: @{UInt64: {NonFungibleToken.NFT}}
 
         init () {
             self.ownedNFTs <- {}
         }
 
-        pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
-            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("Missing NFT")
-            emit Withdraw(id: token.id, from: self.owner?.address)
+        access(all) view fun getSupportedNFTTypes(): {Type: Bool} {
+            let supportedTypes: {Type: Bool} = {}
+            supportedTypes[Type<@TheNFT.NFT>()] = true
+            return supportedTypes
+        }
+
+        access(all) view fun isSupportedNFTType(type: Type): Bool {
+            return type == Type<@TheNFT.NFT>()
+        }
+
+        access(NonFungibleToken.Withdraw) fun withdraw(withdrawID: UInt64): @{NonFungibleToken.NFT} {
+            let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("missing NFT")
             return <- token
         }
 
-        pub fun deposit(token: @NonFungibleToken.NFT) {
+        access(all) fun deposit(token: @{NonFungibleToken.NFT}) {
             let token <- token as! @TheNFT.NFT
             let id: UInt64 = token.id
             self.ownedNFTs[id] <-! token
-            emit Deposit(id: id, to: self.owner?.address)
         }
 
-        pub fun getIDs(): [UInt64] {
+        access(all) view fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
         }
 
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
+        access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}? {
+            return (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?)
         }
 
-        pub fun borrowTheNFT(id: UInt64): &TheNFT.NFT? {
+        access(all) view fun borrowTheNFT(_ id: UInt64): &TheNFT.NFT? {
             if self.ownedNFTs[id] != nil {
-                return (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)! as! &TheNFT.NFT
+                return (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?) as! &TheNFT.NFT? 
             }
             return nil
         }
 
-        pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
-            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)! as! &TheNFT.NFT
-            return nft as &AnyResource{MetadataViews.Resolver}
+        access(all) view fun borrowViewResolver(id: UInt64): &{ViewResolver.Resolver}? {
+            if let nft = &self.ownedNFTs[id] as &{NonFungibleToken.NFT}? {
+                return nft as &{ViewResolver.Resolver}
+            }
+            return nil
         }
 
-        destroy() {
-            destroy self.ownedNFTs
+        access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <- TheNFT.createEmptyCollection(nftType: Type<@TheNFT.NFT>())
         }
     }
 
-    pub resource Maintainer {
-        pub fun setBaseUrl(url: String) {
+    access(all) resource Maintainer {
+        access(all) fun setBaseUrl(url: String) {
             TheNFT.baseUrl = url
         }
     }
 
-    pub fun createEmptyCollection(): @NonFungibleToken.Collection {
+    access(all) fun createEmptyCollection(nftType: Type): @{NonFungibleToken.Collection} {
         return <- create Collection()
     }
 
-    pub fun mintNFT(): @NFT {
+    access(all) view fun getContractViews(resourceType: Type?): [Type] {
+        return []
+    }
+
+    access(all) view fun resolveContractView(resourceType: Type?, viewType: Type): AnyStruct? {
+        return nil
+    }
+
+    access(all) fun mintNFT(): @NFT {
         TheNFT.totalSupply = TheNFT.totalSupply + 1
-        emit Mint(id: TheNFT.totalSupply)
         return <- create NFT(id: TheNFT.totalSupply)
     }
 
@@ -176,10 +188,9 @@ pub contract TheNFT: NonFungibleToken {
         self.totalSupply = 0
         self.baseUrl = ""
 
-        self.account.save(<- create Maintainer(), to: /storage/TheNFTMaintainer)
-        self.account.save(<- create Collection(), to: self.CollectionStoragePath)
-        self.account.link<&TheNFT.Collection{NonFungibleToken.CollectionPublic, TheNFT.TheNFTCollectionPublic}>(self.CollectionPublicPath, target: self.CollectionStoragePath)
-
-        emit ContractInitialized()
+        self.account.storage.save(<- create Maintainer(), to: /storage/TheNFTMaintainer)
+        self.account.storage.save(<- create Collection(), to: self.CollectionStoragePath)
+        let cap = self.account.capabilities.storage.issue<&{NonFungibleToken.Collection}>(self.CollectionStoragePath)
+        self.account.capabilities.publish(cap, at: self.CollectionPublicPath)
     }
 }

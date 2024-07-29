@@ -4,24 +4,27 @@
 // Unless the owner recognizes it himself, external viewers will probably not be able to see it.
 // Once recognized by the owner, it is no longer a gift.
 //
-import NonFungibleToken from "./NonFungibleToken.cdc"
-import MetadataViews from "./MetadataViews.cdc"
+// Note: Withdrawn/Deposited events are now automatically issued under the NFT standard for Cadence 1.0.
+// Therefore, the original concept of this contract is no longer achieved.
+//
+import "NonFungibleToken"
+import "ViewResolver"
+import "MetadataViews"
 
-pub contract Gift: NonFungibleToken {
-    pub let CollectionPublicPath: PublicPath
-    pub let CollectionStoragePath: StoragePath
-    pub var totalSupply: UInt64
-    pub var giftThumbnail: AnyStruct{MetadataViews.File}
-    pub var notGiftThumbnail: AnyStruct{MetadataViews.File}
+access(all) contract Gift: NonFungibleToken {
+    access(all) let CollectionPublicPath: PublicPath
+    access(all) let CollectionStoragePath: StoragePath
+    access(all) var totalSupply: UInt64
+    access(all) var giftThumbnail: {MetadataViews.File}
+    access(all) var notGiftThumbnail: {MetadataViews.File}
 
-    pub event ContractInitialized()
-    pub event Withdraw(id: UInt64, from: Address?)
-    pub event Deposit(id: UInt64, to: Address?)
-    pub event Mint(id: UInt64)
-    pub event Destroy(id: UInt64)
+    access(all) event ContractInitialized()
+    access(all) event Withdraw(id: UInt64, from: Address?)
+    access(all) event Deposit(id: UInt64, to: Address?)
+    access(all) event Mint(id: UInt64)
 
-    pub resource NFT: NonFungibleToken.INFT, MetadataViews.Resolver {
-        pub let id: UInt64
+    access(all) resource NFT: NonFungibleToken.NFT {
+        access(all) let id: UInt64
         access(self) var recognized: Bool
 
         init(id: UInt64) {
@@ -29,21 +32,25 @@ pub contract Gift: NonFungibleToken {
             self.recognized = false
         }
 
-        pub fun recognize() {
+        access(all) fun recognize() {
             self.recognized = true
         }
 
-        pub fun isGift(): Bool {
+        access(all) fun isGift(): Bool {
             return !self.recognized
         }
 
-        pub fun getViews(): [Type] {
+        access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <- Gift.createEmptyCollection(nftType: Type<@Gift.NFT>())
+        }
+
+        access(all) view fun getViews(): [Type] {
             return [
                 Type<MetadataViews.Display>()
             ]
         }
 
-        pub fun resolveView(_ view: Type): AnyStruct? {
+        access(all) fun resolveView(_ view: Type): AnyStruct? {
             switch view {
                 case Type<MetadataViews.Display>():
                     return MetadataViews.Display(
@@ -54,85 +61,101 @@ pub contract Gift: NonFungibleToken {
             }
             return nil
         }
-
-        destroy() {
-            emit Destroy(id: self.id)
-        }
     }
 
-    pub resource interface GiftCollectionPublic {
-        pub fun deposit(token: @NonFungibleToken.NFT)
-        pub fun getIDs(): [UInt64]
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT
-        pub fun borrowGift(id: UInt64): &Gift.NFT? {
+    access(all) resource interface GiftCollectionPublic {
+        access(all) fun deposit(token: @{NonFungibleToken.NFT})
+        access(all) view fun getIDs(): [UInt64]
+        access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}?
+        access(all) view fun borrowGift(_ id: UInt64): &Gift.NFT? {
             post {
                 (result == nil) || (result?.id == id): "Cannot borrow Gift reference"
             }
         }
     }
 
-    pub resource Collection: GiftCollectionPublic, NonFungibleToken.Provider, NonFungibleToken.Receiver, NonFungibleToken.CollectionPublic, MetadataViews.ResolverCollection {
-        pub var ownedNFTs: @{UInt64: NonFungibleToken.NFT}
+    access(all) resource Collection: GiftCollectionPublic, NonFungibleToken.Collection {
+        access(all) var ownedNFTs: @{UInt64: {NonFungibleToken.NFT}}
 
         init () {
             self.ownedNFTs <- {}
         }
 
-        pub fun withdraw(withdrawID: UInt64): @NonFungibleToken.NFT {
+        access(all) view fun getSupportedNFTTypes(): {Type: Bool} {
+            let supportedTypes: {Type: Bool} = {}
+            supportedTypes[Type<@Gift.NFT>()] = true
+            return supportedTypes
+        }
+
+        access(all) view fun isSupportedNFTType(type: Type): Bool {
+            return type == Type<@Gift.NFT>()
+        }
+
+        access(NonFungibleToken.Withdraw) fun withdraw(withdrawID: UInt64): @{NonFungibleToken.NFT} {
             let token <- self.ownedNFTs.remove(key: withdrawID) ?? panic("Missing NFT")
-            let tokenRef = (&token as auth &NonFungibleToken.NFT?)! as! &Gift.NFT
+            let tokenRef = (&token as &{NonFungibleToken.NFT}) as! &Gift.NFT
             if !tokenRef.isGift() {
                 emit Withdraw(id: token.id, from: self.owner?.address)
             }
             return <- token
         }
 
-        pub fun deposit(token: @NonFungibleToken.NFT) {
-            let token <- token as! @Gift.NFT
+        access(all) fun deposit(token: @{NonFungibleToken.NFT}) {
             let id: UInt64 = token.id
-            if !token.isGift() {
+            let tokenRef = (&token as &{NonFungibleToken.NFT}) as! &Gift.NFT
+            if !tokenRef.isGift() {
                 emit Deposit(id: id, to: self.owner?.address)
             }
             self.ownedNFTs[id] <-! token
         }
 
-        pub fun getIDs(): [UInt64] {
+        access(all) view fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
         }
 
-        pub fun borrowNFT(id: UInt64): &NonFungibleToken.NFT {
-            return (&self.ownedNFTs[id] as &NonFungibleToken.NFT?)!
+        access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}? {
+            return &self.ownedNFTs[id] as &{NonFungibleToken.NFT}?
         }
 
-        pub fun borrowGift(id: UInt64): &Gift.NFT? {
+        access(all) view fun borrowGift(_ id: UInt64): &Gift.NFT? {
             if self.ownedNFTs[id] != nil {
-                return (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)! as! &Gift.NFT
+                return (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?) as! &Gift.NFT?
             }
             return nil
         }
 
-        pub fun borrowViewResolver(id: UInt64): &AnyResource{MetadataViews.Resolver} {
-            let nft = (&self.ownedNFTs[id] as auth &NonFungibleToken.NFT?)! as! &Gift.NFT
-            return nft as &AnyResource{MetadataViews.Resolver}
+        access(all) view fun borrowViewResolver(id: UInt64): &{ViewResolver.Resolver}? {
+            if let nft = &self.ownedNFTs[id] as &{NonFungibleToken.NFT}? {
+                return nft as &{ViewResolver.Resolver}
+            }
+            return nil
         }
 
-        destroy() {
-            destroy self.ownedNFTs
+        access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
+            return <- Gift.createEmptyCollection(nftType: Type<@Gift.NFT>())
         }
     }
 
-    pub resource Maintainer {
-        pub fun setThumbnail(giftThumbnail: AnyStruct{MetadataViews.File}, notGiftThumbnail: AnyStruct{MetadataViews.File}) {
+    access(all) resource Maintainer {
+        access(all) fun setThumbnail(giftThumbnail: {MetadataViews.File}, notGiftThumbnail: {MetadataViews.File}) {
             Gift.giftThumbnail = giftThumbnail
             Gift.notGiftThumbnail = notGiftThumbnail
         }
     }
 
-    pub fun createEmptyCollection(): @NonFungibleToken.Collection {
+    access(all) fun createEmptyCollection(nftType: Type): @{NonFungibleToken.Collection} {
         return <- create Collection()
     }
 
-    pub fun mintNFT(): @NFT {
+    access(all) view fun getContractViews(resourceType: Type?): [Type] {
+        return []
+    }
+
+    access(all) view fun resolveContractView(resourceType: Type?, viewType: Type): AnyStruct? {
+        return nil
+    }
+
+    access(all) fun mintNFT(): @NFT {
         Gift.totalSupply = Gift.totalSupply + 1
         emit Mint(id: Gift.totalSupply)
         return <- create NFT(id: Gift.totalSupply)
@@ -144,9 +167,10 @@ pub contract Gift: NonFungibleToken {
         self.totalSupply = 0
         self.giftThumbnail = MetadataViews.HTTPFile(url: "https://nftstorage.link/ipfs/bafkreicmoh2ummsp4qgyp6fvk7lj7uy44jmnymhl6v75h5bbexf5i6njdm")
         self.notGiftThumbnail = MetadataViews.HTTPFile(url: "https://nftstorage.link/ipfs/bafkreiftdj3uj25a4tdnofc3ht6ir2pftwbn2dvtxsajj3rzkrsbdvkkqi")
-        self.account.save(<- create Maintainer(), to: /storage/GiftMaintainer)
-        self.account.save(<- create Collection(), to: self.CollectionStoragePath)
-        self.account.link<&Gift.Collection{NonFungibleToken.CollectionPublic, Gift.GiftCollectionPublic}>(self.CollectionPublicPath, target: self.CollectionStoragePath)
+        self.account.storage.save(<- create Maintainer(), to: /storage/GiftMaintainer)
+        self.account.storage.save(<- create Collection(), to: self.CollectionStoragePath)
+        let cap = self.account.capabilities.storage.issue<&Gift.Collection>(self.CollectionStoragePath)
+        self.account.capabilities.publish(cap, at: self.CollectionPublicPath)
 
         emit ContractInitialized()
     }

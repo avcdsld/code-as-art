@@ -1,7 +1,7 @@
 import "EffectiveLifeTime"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
         EffectiveLifeTime.beat()
     }
 }

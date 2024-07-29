@@ -1,7 +1,7 @@
 import Mutation from "../contracts/Mutation.cdc"
 
 transaction {
-    prepare(account: AuthAccount) {
+    prepare(account: auth(AddContract) &Account) {
         Mutation.mutate()
         Mutation.replicate(account: account)
     }

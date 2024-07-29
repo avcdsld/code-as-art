@@ -1,7 +1,7 @@
 import "Setsuna"
 
 transaction {
-    prepare(acct: AuthAccount) {
+    prepare(acct: &Account) {
         Setsuna.ikiru()
     }
 }

@@ -16,12 +16,40 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "d2c3686da84d61c13627bdf2127866fe358165734f5470be792e6771901d2856"
+		},
+		"mainnet-account": { 
+			"address": "a19cf4dba5941530",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA2_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
+		},
+		"mainnet-account2": { 
+			"address": "8c1f11aac68c6777",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_P256",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account2.key"
+			}
 		}
 	},
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
 				"DigitalNativeArt",
+				"Atelier"
+			]
+		},
+		"mainnet": {
+			"mainnet-account": [
+				"DigitalNativeArt"
+			],
+			"mainnet-account2": [
 				"Atelier"
 			]
 		}

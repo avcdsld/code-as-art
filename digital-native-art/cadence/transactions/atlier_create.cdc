@@ -1,7 +1,7 @@
 import "Atelier"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
         Atelier.createArt()
     }
 }

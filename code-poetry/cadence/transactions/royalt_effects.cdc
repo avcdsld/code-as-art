@@ -1,7 +1,7 @@
 import "RoyaltEffects"
 
 transaction {
-    prepare(account: AuthAccount) {
+    prepare(account: &Account) {
         let nft <- RoyaltEffects.createNFT(price: 100.0)
         log(nft.price)
 

@@ -1,26 +1,26 @@
-pub contract BIP39WordList {
+access(all) contract BIP39WordList {
 
-    pub let en: [String]
+    access(all) let en: [String]
 
-    pub let ja: [String]
+    access(all) let ja: [String]
 
-    pub let ko: [String]
+    access(all) let ko: [String]
 
-    pub let es: [String]
+    access(all) let es: [String]
 
-    pub let zhCN: [String]
+    access(all) let zhCN: [String]
 
-    pub let zhTW: [String]
+    access(all) let zhTW: [String]
 
-    pub let fr: [String]
+    access(all) let fr: [String]
 
-    pub let it: [String]
+    access(all) let it: [String]
 
-    pub let cs: [String]
+    access(all) let cs: [String]
 
-    pub let pt: [String]
+    access(all) let pt: [String]
 
-    pub let length: Int
+    access(all) let length: Int
 
     init() {
         self.en = [

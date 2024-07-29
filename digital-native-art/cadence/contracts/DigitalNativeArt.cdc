@@ -1,10 +1,10 @@
-pub contract DigitalNativeArt {
+access(all) contract DigitalNativeArt {
 
-    pub resource Art {
+    access(all) resource Art {
         // This is the first resource named `Art` in the digital world.
     }
 
-    pub fun create(): @Art {
+    access(all) fun createArt(): @Art {
         return <- create Art()
     }
 }

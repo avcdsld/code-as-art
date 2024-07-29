@@ -1,14 +1,15 @@
-import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
-import MetadataViews from "../contracts/MetadataViews.cdc"
-import Gift from "../contracts/Gift.cdc"
+import "NonFungibleToken"
+import "MetadataViews"
+import "Gift"
 
 transaction {
-    prepare(signer: AuthAccount) {
-        if signer.borrow<&Gift.Collection>(from: Gift.CollectionStoragePath) == nil {
-            signer.save(<- Gift.createEmptyCollection(), to: Gift.CollectionStoragePath)
-            signer.link<&{NonFungibleToken.CollectionPublic, Gift.GiftCollectionPublic, MetadataViews.ResolverCollection}>(Gift.CollectionPublicPath, target: Gift.CollectionStoragePath)
+    prepare(signer: auth(BorrowValue, SaveValue, IssueStorageCapabilityController, PublishCapability, GetStorageCapabilityController) &Account) {
+        if signer.storage.borrow<&Gift.Collection>(from: Gift.CollectionStoragePath) == nil {
+            signer.storage.save(<- Gift.createEmptyCollection(nftType: Type<@Gift.NFT>()), to: Gift.CollectionStoragePath)
+            let cap = signer.capabilities.storage.issue<&Gift.Collection>(Gift.CollectionStoragePath)
+            signer.capabilities.publish(cap, at: Gift.CollectionPublicPath)
         }
-        let collection = signer.getCapability(Gift.CollectionPublicPath).borrow<&{Gift.GiftCollectionPublic}>() ?? panic("Not Found")
+        let collection = signer.capabilities.get<&Gift.Collection>(Gift.CollectionPublicPath).borrow() ?? panic("Not Found")
         collection.deposit(token: <- Gift.mintNFT())
     }
 }

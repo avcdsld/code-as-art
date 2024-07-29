@@ -1,7 +1,7 @@
 import "StudyOfThings"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
         let object <- StudyOfThings.get()
         let mind <- StudyOfThings.call()
         StudyOfThings.produce(

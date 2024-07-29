@@ -1,8 +1,8 @@
 import "Atelier"
 
-pub struct Info {
-    pub let creations: UInt64
-    pub let destructions: UInt64
+access(all) struct Info {
+    access(all) let creations: UInt64
+    access(all) let destructions: UInt64
 
     init(creations: UInt64, destructions: UInt64) {
         self.creations = creations
@@ -10,7 +10,7 @@ pub struct Info {
     }
 }
 
-pub fun main(): Info {
+access(all) fun main(): Info {
     return Info(
         creations: Atelier.creations,
         destructions: Atelier.destructions

@@ -1,15 +1,15 @@
-import "BIP39WordList"
+import "BIP39WordListJa"
 
-pub contract MnemonicPoetry {
+access(all) contract MnemonicPoetry {
 
-    pub event NewMnemonic(mnemonic: Mnemonic)
-    pub event NewMnemonicPoem(mnemonicPoem: MnemonicPoem)
+    access(all) event NewMnemonic(mnemonic: Mnemonic)
+    access(all) event NewMnemonicPoem(mnemonicPoem: MnemonicPoem)
 
-    pub struct Mnemonic {
-        pub let words: [String]
-        pub let blockID: [UInt8; 32]
-        pub let blockHeight: UInt64
-        pub let blockTimestamp: UFix64
+    access(all) struct Mnemonic {
+        access(all) let words: [String]
+        access(all) let blockID: [UInt8; 32]
+        access(all) let blockHeight: UInt64
+        access(all) let blockTimestamp: UFix64
 
         init(
             words: [String],
@@ -24,9 +24,9 @@ pub contract MnemonicPoetry {
         }
     }
 
-    pub struct MnemonicPoem {
-        pub let mnemonic: Mnemonic
-        pub let poem: String
+    access(all) struct MnemonicPoem {
+        access(all) let mnemonic: Mnemonic
+        access(all) let poem: String
 
         init(
             mnemonic: Mnemonic,
@@ -37,21 +37,31 @@ pub contract MnemonicPoetry {
         }
     }
 
-    pub resource interface PoetryCollectionPublic {
-        pub var mnemonics: [Mnemonic]
-        pub var poems: [MnemonicPoem]
+    access(all) resource interface PoetryCollectionPublic {
+        access(all) var mnemonics: [Mnemonic]
+        access(all) var poems: [MnemonicPoem]
+        access(all) fun getMnemonic(index: Int): Mnemonic
+        access(all) fun getPoem(index: Int): MnemonicPoem
     }
 
-    pub resource PoetryCollection: PoetryCollectionPublic {
-        pub var mnemonics: [Mnemonic]
-        pub var poems: [MnemonicPoem]
+    access(all) resource PoetryCollection: PoetryCollectionPublic {
+        access(all) var mnemonics: [Mnemonic]
+        access(all) var poems: [MnemonicPoem]
 
         init() {
             self.mnemonics = []
             self.poems = []
         }
 
-        pub fun findMnemonic(): Mnemonic {
+        access(all) fun getMnemonic(index: Int): Mnemonic {
+            return self.mnemonics[index]
+        }
+
+        access(all) fun getPoem(index: Int): MnemonicPoem {
+            return self.poems[index]
+        }
+
+        access(all) fun findMnemonic(): Mnemonic {
             let block = getCurrentBlock()
             let entropyWithChecksum = self.blockIDToEntropyWithChecksum(blockID: block.id)
             let words = self.entropyWithChecksumToWords(entropyWithChecksum: entropyWithChecksum)
@@ -66,7 +76,7 @@ pub contract MnemonicPoetry {
             return mnemonic
         }
 
-        priv fun blockIDToEntropyWithChecksum(blockID: [UInt8; 32]): [UInt8] {
+        access(self) fun blockIDToEntropyWithChecksum(blockID: [UInt8; 32]): [UInt8] {
             var entropy: [UInt8] = []
             var i = 0
             while i < 16 {
@@ -79,18 +89,18 @@ pub contract MnemonicPoetry {
             return entropyWithChecksum
         }
 
-        priv fun entropyWithChecksumToWords(entropyWithChecksum: [UInt8]): [String] {
+        access(self) fun entropyWithChecksumToWords(entropyWithChecksum: [UInt8]): [String] {
             var words: [String] = []
             var i = 0
             while i < 12 {
                 let index = self.extract11Bits(from: entropyWithChecksum, at: i * 11)
-                words.append(BIP39WordList.ja[index])
+                words.append(BIP39WordListJa.ja[index])
                 i = i + 1
             }
             return words
         }
 
-        priv fun extract11Bits(from bytes: [UInt8], at bitPosition: Int): Int {
+        access(self) fun extract11Bits(from bytes: [UInt8], at bitPosition: Int): Int {
             let bytePosition = bitPosition / 8
             let bitOffset = bitPosition % 8
 
@@ -110,7 +120,7 @@ pub contract MnemonicPoetry {
             return Int(res)
         }
 
-        pub fun writePoem(mnemonic: Mnemonic, poem: String) {
+        access(all) fun writePoem(mnemonic: Mnemonic, poem: String) {
             let mnemonicPoem = MnemonicPoem(
                 mnemonic: mnemonic,
                 poem: poem
@@ -120,7 +130,7 @@ pub contract MnemonicPoetry {
         }
     }
 
-    pub fun createEmptyPoetryCollection(): @PoetryCollection {
+    access(all) fun createEmptyPoetryCollection(): @PoetryCollection {
         return <- create PoetryCollection()
     }
 }

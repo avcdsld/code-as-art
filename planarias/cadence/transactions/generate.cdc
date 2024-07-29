@@ -1,15 +1,16 @@
 import "Planarias"
 
 transaction {
-    prepare(signer: AuthAccount) {
-        if signer.borrow<&Planarias.Habitat>(from: /storage/PlanariasHabitat) == nil {
-            signer.save(<- Planarias.createHabitat(), to: /storage/PlanariasHabitat)
-            signer.link<&Planarias.Habitat>(/public/PlanariasHabitat, target: /storage/PlanariasHabitat)
+    prepare(signer: auth(BorrowValue, SaveValue, StorageCapabilities, PublishCapability) &Account) {
+        if signer.storage.borrow<&Planarias.Habitat>(from: /storage/PlanariasHabitat) == nil {
+            signer.storage.save(<- Planarias.createHabitat(), to: /storage/PlanariasHabitat)
+            let cap = signer.capabilities.storage.issue<&Planarias.Habitat>(/storage/PlanariasHabitat)
+            signer.capabilities.publish(cap, at: /public/PlanariasHabitat)
         }
-        let habitat = signer.borrow<&Planarias.Habitat>(from: /storage/PlanariasHabitat) ?? panic("Not Found")
+        let habitat = signer.storage.borrow<&Planarias.Habitat>(from: /storage/PlanariasHabitat) ?? panic("Not Found")
         var i = 0
         while i < 100 {
-            habitat.in(planaria: <- Planarias.generate())
+            habitat.enter(planaria: <- Planarias.generate())
             i = i + 1
         }
     }

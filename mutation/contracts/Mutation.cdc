@@ -1,7 +1,7 @@
-pub contract Mutation {
-    priv var name: String
-    priv var mutatedName: String
-    pub var mutatedCode: [UInt8]
+access(all) contract Mutation {
+    access(self) var name: String
+    access(self) var mutatedName: String
+    access(all) var mutatedCode: [UInt8]
 
     init() {
         self.name = "Mutation"
@@ -9,7 +9,7 @@ pub contract Mutation {
         self.mutatedCode = []
     }
 
-    pub fun mutate() {
+    access(all) fun mutate() {
         let point = Int(getCurrentBlock().id[0] % UInt8(self.name.length))
         var mutatedName = ""
         var i = 0
@@ -24,12 +24,12 @@ pub contract Mutation {
         self.mutatedName = mutatedName
 
         let codeStr = String.encodeHex(self.account.contracts.get(name: self.name)!.code)
-        var mutatedCodeHex = String.encodeHex("pub contract ".concat(mutatedName).utf8)
+        var mutatedCodeHex = String.encodeHex("access(all) contract ".concat(mutatedName).utf8)
         mutatedCodeHex = mutatedCodeHex.concat(codeStr.slice(from: mutatedCodeHex.length, upTo: codeStr.length))
         self.mutatedCode = mutatedCodeHex.decodeHex()
     }
 
-    pub fun replicate(account: AuthAccount) {
+    access(all) fun replicate(account: auth(AddContract) &Account) {
         account.contracts.add(name: self.mutatedName, code: self.mutatedCode)
     }
 }

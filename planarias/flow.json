@@ -15,11 +15,26 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "d2c3686da84d61c13627bdf2127866fe358165734f5470be792e6771901d2856"
+		},
+		"mainnet-account": { 
+			"address": "d370ae493b8acc86",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_P256",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
 		}
 	},
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
+				"Planarias"
+			]
+		},
+		"mainnet": {
+			"mainnet-account": [
 				"Planarias"
 			]
 		}

@@ -1,11 +1,11 @@
 import "Waterfalls"
 
 transaction {
-    prepare(signer: AuthAccount) {
-        let waterfall <- Waterfalls.create(wall: 0)
+    prepare(signer: auth(SaveValue) &Account) {
+        let waterfall <- Waterfalls.createWaterfall(wall: 0)
         let carp <- waterfall.hatch()
         let dragon <- waterfall.climb(carp: <- carp)
         destroy waterfall
-        signer.save(<- dragon, to: /storage/WaterfallsDragon)
+        signer.storage.save(<- dragon, to: /storage/WaterfallsDragon)
     }
 }

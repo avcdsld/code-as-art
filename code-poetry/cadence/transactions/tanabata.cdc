@@ -1,7 +1,7 @@
 import "Tanabata"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
         Tanabata.fulfill(wish: "world peace")
     }
 }

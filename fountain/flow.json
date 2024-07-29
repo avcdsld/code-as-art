@@ -14,11 +14,26 @@
 				"type": "file",
 				"location": "./emulator.key"
 			}
+		},
+		"mainnet-account": { 
+			"address": "23b08a725bc2533d",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_P256",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
 		}
 	},
 	"deployments": {
 		"emulator": {
 			"emulator-account": [
+				"Fountain"
+			]
+		},
+		"mainnet": {
+			"mainnet-account": [
 				"Fountain"
 			]
 		}

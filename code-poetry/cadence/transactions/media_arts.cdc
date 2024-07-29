@@ -1,9 +1,9 @@
 import "MediaArts"
 
 transaction {
-    prepare(signer: AuthAccount) {
-        signer.save(<- MediaArts.create(), to: StoragePath(identifier: "MediaArt1")!)
-        signer.save(<- MediaArts.create(), to: StoragePath(identifier: "MediaArt2")!)
-        signer.save(<- MediaArts.create(), to: StoragePath(identifier: "MediaArt3")!)
+    prepare(signer: auth(SaveValue) &Account) {
+        signer.storage.save(<- MediaArts.createMediaArt(), to: StoragePath(identifier: "MediaArt1")!)
+        signer.storage.save(<- MediaArts.createMediaArt(), to: StoragePath(identifier: "MediaArt2")!)
+        signer.storage.save(<- MediaArts.createMediaArt(), to: StoragePath(identifier: "MediaArt3")!)
     }
 }

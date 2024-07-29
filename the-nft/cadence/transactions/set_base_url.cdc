@@ -1,10 +1,10 @@
-import NonFungibleToken from "../contracts/NonFungibleToken.cdc"
-import MetadataViews from "../contracts/MetadataViews.cdc"
-import TheNFT from "../contracts/TheNFT.cdc"
+import "NonFungibleToken"
+import "MetadataViews"
+import "TheNFT"
 
 transaction(baseUrl: String) {
-    prepare(signer: AuthAccount) {
-        let maintainer = signer.borrow<&TheNFT.Maintainer>(from: /storage/TheNFTMaintainer) ?? panic("Not Found")
+    prepare(signer: auth(BorrowValue) &Account) {
+        let maintainer = signer.storage.borrow<&TheNFT.Maintainer>(from: /storage/TheNFTMaintainer) ?? panic("Not Found")
         maintainer.setBaseUrl(url: baseUrl)
     }
 }

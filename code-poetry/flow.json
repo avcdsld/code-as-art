@@ -48,8 +48,28 @@
 			"key": "d2c3686da84d61c13627bdf2127866fe358165734f5470be792e6771901d2856"
 		},
 		"emulator-account2": {
-			"address": "01cf0e2f2f715450",
-			"key": "119636fb1e1b535140a9312e399842d69b88fbed2b47e72b82265379e752e9ef"
+			"address": "179b6b1cb6755e31",
+			"key": "a1d233867990079704d58abc92eec3e8d468c2f9cc271d4bf6cba22d5301c04d"
+		},
+		"mainnet-account": { 
+			"address": "23b08a725bc2533d",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_P256",
+				"hashAlgorithm": "SHA3_256",
+				"type": "file",
+				"location": "./mainnet-account.key"
+			}
+		},
+		"mainnet-ConcreteBlkPoetry": { 
+			"address": "2ff554854640b4f5",
+			"key": {
+				"index": 0,
+				"signatureAlgorithm": "ECDSA_secp256k1",
+				"hashAlgorithm": "SHA2_256",
+				"type": "file",
+				"location": "./mainnet-ConcreteBlkPoetry.key"
+			}
 		}
 	},
 	"deployments": {
@@ -87,6 +107,44 @@
 				"FirstFinalTouch",
 				"DeepSea",
 				"MediaArts"
+			]
+		},
+		"mainnet": {
+			"mainnet-account": [
+				"Universe",
+				"UniverseV2",
+				"Metabolism",
+				"NeverEndingStory",
+				"StudyOfThings",
+				"AllTheDeities",
+				"YaoyorozunoKami",
+				"Tanabata",
+				"DateUtil",
+				"ObjectOrientedOntology",
+				"Deities",
+				"BIP39WordList",
+				"ConcreteAlphabets",
+				"ConcreteAlphabetsHiragana",
+				"ConcreteAlphabetsHangle",
+				"ConcreteAlphabetsSpanish",
+				"ConcreteAlphabetsSimplifiedChinese",
+				"ConcreteAlphabetsTraditionalChinese",
+				"ConcreteAlphabetsFrench",
+				"ConcreteBlockPoetry",
+				"ConcreteBlockPoetryBIP39",
+				"ActualInfinity",
+				"RoyaltEffects",
+				"Quine",
+				"UndefinedCode",
+				"EffectiveLifeTime",
+				"Setsuna",
+				"Waterfalls",
+				"Purification",
+				"FirstFinalTouch",
+				"DeepSea",
+				"MediaArts"
+			],
+			"mainnet-ConcreteBlkPoetry": [
 			]
 		}
 	}

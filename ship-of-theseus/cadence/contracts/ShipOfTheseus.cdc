@@ -4,48 +4,48 @@
 // Of the flowing river the flood ever changeth, on the still pool the foam gathering, vanishing, stayeth not.
 // Such too is the lot of men and of the dwellings of men in this world of ours.
 
-pub contract ShipOfTheseus {
-    pub var theShip: @[Ship]
+access(all) contract ShipOfTheseus {
+    access(all) var theShip: @[Ship]
 
-    pub struct Memory {
-        pub let timestamp: UFix64
-        pub let event: String
-        pub let executor: Address
+    access(all) struct Memory {
+        access(all) let timestamp: UFix64
+        access(all) let event: String
+        access(all) let executor: Address
 
-        init(timestamp: UFix64, event: String, executor: Address) {
+        init(timestamp: UFix64, eventName: String, executor: Address) {
             self.timestamp = timestamp
-            self.event = event
+            self.event = eventName
             self.executor = executor
         }
     }
 
-    pub resource Ship {
-        pub let id: UInt64
+    access(all) resource Ship {
+        access(all) let id: UInt64
         access(account) var memories: [Memory]
 
         init(id: UInt64, memories: [Memory], executor: Address) {
             self.id = id
             self.memories = memories
-            self.memories.insert(at: 0, Memory(timestamp: getCurrentBlock().timestamp, event: "init", executor: executor))
+            self.memories.insert(at: 0, Memory(timestamp: getCurrentBlock().timestamp, eventName: "init", executor: executor))
         }
 
-        pub fun touch(executor: &AuthAccount) {
-            self.memories.insert(at: 0, Memory(timestamp: getCurrentBlock().timestamp, event: "touch", executor: executor.address))
+        access(all) fun touch(executor: &Account) {
+            self.memories.insert(at: 0, Memory(timestamp: getCurrentBlock().timestamp, eventName: "touch", executor: executor.address))
         }
 
-        pub fun getMemories(): [Memory] {
+        access(all) fun getMemories(): [Memory] {
             return self.memories
         }
     }
 
-    pub fun touch(executor: &AuthAccount) {
+    access(all) fun touch(executor: &Account) {
         let ship = &self.theShip[0] as &Ship
         ship.touch(executor: executor)
     }
 
-    pub fun renew(executor: &AuthAccount): @Ship {
+    access(all) fun renew(executor: &Account): @Ship {
         // Here, the ship is replaced by a new resource object, with the same ID and memories, but a different UUID.
-        let ship <- self.theShip.removeFirst()!
+        let ship <- self.theShip.removeFirst()
         self.theShip.append(<- create Ship(id: ship.id, memories: ship.getMemories(), executor: executor.address))
         return <- ship
     }

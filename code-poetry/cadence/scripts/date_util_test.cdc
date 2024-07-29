@@ -1,6 +1,6 @@
 import "DateUtil"
 
-pub fun main() {
+access(all) fun main() {
     assert(DateUtil.isJuly7(1688687999.0) == false, message: "2023-07-06 23:59:59 UTC")
     assert(DateUtil.isJuly7(1688688000.0) == true, message: "2023-07-07 00:00:00 UTC")
     assert(DateUtil.isJuly7(1688720400.0) == true, message: "2023-07-07 09:00:00 UTC")

@@ -1,7 +1,7 @@
 import "FirstFinalTouch"
 
 transaction {
-    prepare(signer: AuthAccount) {
+    prepare(signer: &Account) {
         FirstFinalTouch.finalize()
     }
 }
