@@ -1,22 +1,22 @@
 // This code poetry is dedicated to Minakata Kumagusu.
 
-pub contract StudyOfThings {
-    pub resource Object {}
+access(all) contract StudyOfThings {
+    access(all) resource Object {}
 
-    pub resource Mind {}
+    access(all) resource Mind {}
 
-    pub event Thing(object: UInt64, mind: UInt64)
+    access(all) event Thing(object: UInt64, mind: UInt64)
 
 
-    pub fun get(): @Object {
+    access(all) fun get(): @Object {
         return <- create Object()
     }
 
-    pub fun call(): @Mind {
+    access(all) fun call(): @Mind {
         return <- create Mind()
     }
 
-    pub fun produce(object: &Object, mind: &Mind) {
+    access(all) fun produce(object: &Object, mind: &Mind) {
         emit Thing(object: object.uuid, mind: mind.uuid)
     }
 }

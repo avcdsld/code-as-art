@@ -1,33 +1,40 @@
-pub contract ObjectOrientedOntology {
+access(all) contract ObjectOrientedOntology {
 
-    pub resource interface SensualObject {
-        pub fun undermine(): &[Object]
-        pub fun overmine(): [Capability<&Object{SensualObject}>]
+    access(all) resource interface SensualObject {
+        access(all) fun undermine(): &[Object]
+        access(all) fun overmine(): [Capability<&Object>]
     }
 
-    pub resource Object: SensualObject {
-        pub(set) var causes: @[Object]
-        pub(set) var effects: [Capability<&Object{SensualObject}>]
+    access(all) entitlement Journey
+
+    access(all) resource Object: SensualObject {
+        access(all) var causes: @[Object]
+        access(all) var effects: [Capability<&Object>]
 
         init() {
             self.causes <- []
             self.effects = []
         }
 
-        pub fun undermine(): &[Object] {
-            return (&self.causes as! &[Object])!
+        access(all) fun undermine(): &[Object] {
+            return &self.causes
         }
 
-        pub fun overmine(): [Capability<&Object{SensualObject}>] {
+        access(all) fun overmine(): [Capability<&Object>] {
             return self.effects
         }
 
-        destroy() {
-            destroy self.causes
+        access(Journey) fun setCauses(_ causes: @[Object]) {
+            let old <- self.causes <- causes
+            destroy old
+        }
+
+        access(Journey) fun setEffects(_ effects: [Capability<&Object>]) {
+            self.effects = effects
         }
     }
 
-    pub fun createObject(): @Object {
+    access(all) fun createObject(): @Object {
         return <- create Object()
     }
 }

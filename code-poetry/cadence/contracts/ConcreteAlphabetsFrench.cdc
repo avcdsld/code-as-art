@@ -2,45 +2,45 @@
 
 import "ConcreteAlphabets"
 
-pub contract ConcreteAlphabetsFrench {
-    pub resource U00C0{} // À
-    pub resource U00C2{} // Â
-    pub resource U00C6{} // Æ
-    pub resource U00C7{} // Ç
-    pub resource U00C8{} // È
-    pub resource U00C9{} // É
-    pub resource U00CA{} // Ê
-    pub resource U00CB{} // Ë
-    pub resource U00CE{} // Î
-    pub resource U00CF{} // Ï
-    pub resource U00D4{} // Ô
-    pub resource U00D9{} // Ù
-    pub resource U00DB{} // Û
-    pub resource U00DC{} // Ü
-    pub resource U00E0{} // à
-    pub resource U00E2{} // â
-    pub resource U00E6{} // æ
-    pub resource U00E7{} // ç
-    pub resource U00E8{} // è
-    pub resource U00E9{} // é
-    pub resource U00EA{} // ê
-    pub resource U00EB{} // ë
-    pub resource U00EE{} // î
-    pub resource U00EF{} // ï
-    pub resource U00F4{} // ô
-    pub resource U00F9{} // ù
-    pub resource U00FB{} // û
-    pub resource U00FC{} // ü
-    pub resource U00FF{} // ÿ
-    pub resource U0152{} // Œ
-    pub resource U0153{} // œ
-    pub resource U0178{} // Ÿ
-    pub resource U02B3{} // ʳ
-    pub resource U02E2{} // ˢ
-    pub resource U1D48{} // ᵈ
-    pub resource U1D49{} // ᵉ
+access(all) contract ConcreteAlphabetsFrench {
+    access(all) resource U00C0{} // À
+    access(all) resource U00C2{} // Â
+    access(all) resource U00C6{} // Æ
+    access(all) resource U00C7{} // Ç
+    access(all) resource U00C8{} // È
+    access(all) resource U00C9{} // É
+    access(all) resource U00CA{} // Ê
+    access(all) resource U00CB{} // Ë
+    access(all) resource U00CE{} // Î
+    access(all) resource U00CF{} // Ï
+    access(all) resource U00D4{} // Ô
+    access(all) resource U00D9{} // Ù
+    access(all) resource U00DB{} // Û
+    access(all) resource U00DC{} // Ü
+    access(all) resource U00E0{} // à
+    access(all) resource U00E2{} // â
+    access(all) resource U00E6{} // æ
+    access(all) resource U00E7{} // ç
+    access(all) resource U00E8{} // è
+    access(all) resource U00E9{} // é
+    access(all) resource U00EA{} // ê
+    access(all) resource U00EB{} // ë
+    access(all) resource U00EE{} // î
+    access(all) resource U00EF{} // ï
+    access(all) resource U00F4{} // ô
+    access(all) resource U00F9{} // ù
+    access(all) resource U00FB{} // û
+    access(all) resource U00FC{} // ü
+    access(all) resource U00FF{} // ÿ
+    access(all) resource U0152{} // Œ
+    access(all) resource U0153{} // œ
+    access(all) resource U0178{} // Ÿ
+    access(all) resource U02B3{} // ʳ
+    access(all) resource U02E2{} // ˢ
+    access(all) resource U1D48{} // ᵈ
+    access(all) resource U1D49{} // ᵉ
 
-    pub fun newLetter(_ ch: Character): @AnyResource {
+    access(all) fun newLetter(_ ch: Character): @AnyResource {
         switch ch.toString() {
             case "À": return <- create U00C0()
             case "Â": return <- create U00C2()
@@ -82,7 +82,7 @@ pub contract ConcreteAlphabetsFrench {
         }
     }
 
-    pub fun newText(_ str: String): @[AnyResource] {
+    access(all) fun newText(_ str: String): @[AnyResource] {
         var res: @[AnyResource] <- []
         for ch in str {
             res.append(<- ConcreteAlphabetsFrench.newLetter(ch))
@@ -90,7 +90,7 @@ pub contract ConcreteAlphabetsFrench {
         return <- res
     }
 
-    pub fun toCharacter(_ letter: &AnyResource): Character {
+    access(all) fun toCharacter(_ letter: &AnyResource): Character {
         switch letter.getType() {
             case Type<@U00C0>(): return "À"
             case Type<@U00C2>(): return "Â"
@@ -132,11 +132,11 @@ pub contract ConcreteAlphabetsFrench {
         }
     }
 
-    pub fun toString(_ text: &[AnyResource]): String {
+    access(all) fun toString(_ text: &[AnyResource]): String {
         var res: String = ""
         var i = 0
         while i < text.length {
-            let letter = &text[i] as &AnyResource
+            let letter = text[i]
             res = res.concat(ConcreteAlphabetsFrench.toCharacter(letter).toString())
             i = i + 1
         }

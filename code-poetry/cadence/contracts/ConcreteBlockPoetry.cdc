@@ -1,26 +1,26 @@
 import "ConcreteAlphabets"
 
-pub contract ConcreteBlockPoetry {
+access(all) contract ConcreteBlockPoetry {
 
-    pub event NewPoem(poem: String)
+    access(all) event NewPoem(poem: String)
 
-    pub struct interface IPoetryLogic {
-        pub fun generatePoem(blockID: [UInt8; 32]): String
+    access(all) struct interface IPoetryLogic {
+        access(all) fun generatePoem(blockID: [UInt8; 32]): String
     }
 
-    pub struct PoetryLogic: IPoetryLogic {
-        pub fun generatePoem(blockID: [UInt8; 32]): String {
+    access(all) struct PoetryLogic: IPoetryLogic {
+        access(all) fun generatePoem(blockID: [UInt8; 32]): String {
             var poem = ""
             var i = 0
             while i < 32 {
-                poem = poem.concat(self.toAlphabet(blockID[i]!))
+                poem = poem.concat(self.toAlphabet(blockID[i]))
                 i = i + 1
             }
             return poem
         }
 
         // Based on the frequency of typical English sentences
-        priv fun toAlphabet(_ num: UInt8): String {
+        access(self) fun toAlphabet(_ num: UInt8): String {
             if num < 27 { return "E" }
             if num < 46 { return "T" }
             if num < 63 { return "A" }
@@ -51,30 +51,28 @@ pub contract ConcreteBlockPoetry {
         }
     }
 
-    pub resource interface PoetryCollectionPublic {
-        pub var poems: @{UFix64: [AnyResource]}
+    access(all) resource interface PoetryCollectionPublic {
+        access(all) var poems: @{UFix64: [AnyResource]}
     }
 
-    pub resource PoetryCollection: PoetryCollectionPublic {
+    access(all) entitlement WritePoem
 
-        pub var poems: @{UFix64: [AnyResource]}
+    access(all) resource PoetryCollection: PoetryCollectionPublic {
+
+        access(all) var poems: @{UFix64: [AnyResource]}
 
         init() {
             self.poems <- {}
         }
 
-        destroy() {
-            destroy self.poems
-        }
-
-        pub fun writePoem(poetryLogic: {IPoetryLogic}) {
+        access(WritePoem) fun writePoem(poetryLogic: {IPoetryLogic}) {
             let poem = poetryLogic.generatePoem(blockID: getCurrentBlock().id)
             self.poems[getCurrentBlock().timestamp] <-! <- ConcreteAlphabets.newText(poem)
             emit NewPoem(poem: poem)
         }
     }
 
-    pub fun createEmptyPoetryCollection(): @PoetryCollection {
+    access(all) fun createEmptyPoetryCollection(): @PoetryCollection {
         return <- create PoetryCollection()
     }
 }

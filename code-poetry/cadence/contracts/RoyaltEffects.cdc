@@ -1,16 +1,16 @@
-pub contract RoyaltEffects {
+access(all) contract RoyaltEffects {
 
-    pub resource NFT {
-        pub var price: UFix64
+    access(all) resource NFT {
+        access(all) var price: UFix64
 
         init(price: UFix64) { self.price = price }
 
-        pub fun enableRoyalty(expectedTotalRoyalty: UFix64) {
+        access(all) fun enableRoyalty(expectedTotalRoyalty: UFix64) {
             self.price = self.price - expectedTotalRoyalty
         }
     }
 
-    pub fun createNFT(price: UFix64): @NFT {
+    access(all) fun createNFT(price: UFix64): @NFT {
         return <- create NFT(price: price)
     }
 }

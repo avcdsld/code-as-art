@@ -1,8 +1,8 @@
-pub contract Setsuna {
+access(all) contract Setsuna {
 
-    pub resource Ishiki {}
+    access(all) resource Ishiki {}
 
-    pub fun ikiru() {
+    access(all) fun ikiru() {
         destroy create Ishiki()
     }
 }

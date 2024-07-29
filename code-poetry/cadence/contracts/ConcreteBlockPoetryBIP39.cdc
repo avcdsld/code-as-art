@@ -7,17 +7,17 @@ import "ConcreteAlphabetsSimplifiedChinese"
 import "ConcreteAlphabetsTraditionalChinese"
 import "ConcreteAlphabetsFrench"
 
-pub contract ConcreteBlockPoetryBIP39 {
+access(all) contract ConcreteBlockPoetryBIP39 {
 
-    pub event NewPoems(poems: [String])
+    access(all) event NewPoems(poems: [String])
 
-    pub struct interface IPoetryLogic {
-        pub fun generatePoems(blockID: [UInt8; 32]): [String]
-        pub fun generateConcreteAlphabets(poems: [String]): @[[AnyResource]]
+    access(all) struct interface IPoetryLogic {
+        access(all) fun generatePoems(blockID: [UInt8; 32]): [String]
+        access(all) fun generateConcreteAlphabets(poems: [String]): @[[AnyResource]]
     }
 
-    pub struct PoetryLogic: IPoetryLogic {
-        pub fun generatePoems(blockID: [UInt8; 32]): [String] {
+    access(all) struct PoetryLogic: IPoetryLogic {
+        access(all) fun generatePoems(blockID: [UInt8; 32]): [String] {
             let entropyWithChecksum = self.blockIDToEntropyWithChecksum(blockID: blockID)
             var poemEn = ""
             var poemJa = ""
@@ -58,7 +58,7 @@ pub contract ConcreteBlockPoetryBIP39 {
             ]
         }
 
-        priv fun blockIDToEntropyWithChecksum(blockID: [UInt8; 32]): [UInt8] {
+        access(self) fun blockIDToEntropyWithChecksum(blockID: [UInt8; 32]): [UInt8] {
             var entropy: [UInt8] = []
             var i = 0
             while i < 16 {
@@ -71,7 +71,7 @@ pub contract ConcreteBlockPoetryBIP39 {
             return entropyWithChecksum
         }
 
-        priv fun extract11Bits(from bytes: [UInt8], at bitPosition: Int): Int {
+        access(self) fun extract11Bits(from bytes: [UInt8], at bitPosition: Int): Int {
             let bytePosition = bitPosition / 8
             let bitOffset = bitPosition % 8
 
@@ -91,7 +91,7 @@ pub contract ConcreteBlockPoetryBIP39 {
             return Int(res)
         }
 
-        pub fun generateConcreteAlphabets(poems: [String]): @[[AnyResource]] {
+        access(all) fun generateConcreteAlphabets(poems: [String]): @[[AnyResource]] {
             let concreteAlphabets: @[[AnyResource]] <- []
             concreteAlphabets.append(<- ConcreteAlphabets.newText(poems[0]))
             concreteAlphabets.append(<- ConcreteAlphabetsHiragana.newText(poems[1]))
@@ -107,30 +107,28 @@ pub contract ConcreteBlockPoetryBIP39 {
         }
     }
 
-    pub resource interface PoetryCollectionPublic {
-        pub var poems: @{UFix64: [AnyResource]}
+    access(all) resource interface PoetryCollectionPublic {
+        access(all) var poems: @{UFix64: [AnyResource]}
     }
 
-    pub resource PoetryCollection: PoetryCollectionPublic {
+    access(all) entitlement WritePoem
 
-        pub var poems: @{UFix64: [AnyResource]}
+    access(all) resource PoetryCollection: PoetryCollectionPublic {
+
+        access(all) var poems: @{UFix64: [AnyResource]}
 
         init() {
             self.poems <- {}
         }
 
-        destroy() {
-            destroy self.poems
-        }
-
-        pub fun writePoems(poetryLogic: {IPoetryLogic}) {
+        access(WritePoem) fun writePoems(poetryLogic: {IPoetryLogic}) {
             let poems = poetryLogic.generatePoems(blockID: getCurrentBlock().id)
             self.poems[getCurrentBlock().timestamp] <-! <- poetryLogic.generateConcreteAlphabets(poems: poems)
             emit NewPoems(poems: poems)
         }
     }
 
-    pub fun createEmptyPoetryCollection(): @PoetryCollection {
+    access(all) fun createEmptyPoetryCollection(): @PoetryCollection {
         return <- create PoetryCollection()
     }
 }

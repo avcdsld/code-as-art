@@ -1,93 +1,93 @@
 // You can create concrete poems with these alphabet resources.
 
-pub contract ConcreteAlphabetsHiragana {
-    pub resource U3041{} // ぁ
-    pub resource U3042{} // あ
-    pub resource U3043{} // ぃ
-    pub resource U3044{} // い
-    pub resource U3045{} // ぅ
-    pub resource U3046{} // う
-    pub resource U3047{} // ぇ
-    pub resource U3048{} // え
-    pub resource U3049{} // ぉ
-    pub resource U304A{} // お
-    pub resource U304B{} // か
-    pub resource U304C{} // が
-    pub resource U304D{} // き
-    pub resource U304E{} // ぎ
-    pub resource U304F{} // く
-    pub resource U3050{} // ぐ
-    pub resource U3051{} // け
-    pub resource U3052{} // げ
-    pub resource U3053{} // こ
-    pub resource U3054{} // ご
-    pub resource U3055{} // さ
-    pub resource U3056{} // ざ
-    pub resource U3057{} // し
-    pub resource U3058{} // じ
-    pub resource U3059{} // す
-    pub resource U305A{} // ず
-    pub resource U305B{} // せ
-    pub resource U305C{} // ぜ
-    pub resource U305D{} // そ
-    pub resource U305E{} // ぞ
-    pub resource U305F{} // た
-    pub resource U3060{} // だ
-    pub resource U3061{} // ち
-    pub resource U3062{} // ぢ
-    pub resource U3063{} // っ
-    pub resource U3064{} // つ
-    pub resource U3065{} // づ
-    pub resource U3066{} // て
-    pub resource U3067{} // で
-    pub resource U3068{} // と
-    pub resource U3069{} // ど
-    pub resource U306A{} // な
-    pub resource U306B{} // に
-    pub resource U306C{} // ぬ
-    pub resource U306D{} // ね
-    pub resource U306E{} // の
-    pub resource U306F{} // は
-    pub resource U3070{} // ば
-    pub resource U3071{} // ぱ
-    pub resource U3072{} // ひ
-    pub resource U3073{} // び
-    pub resource U3074{} // ぴ
-    pub resource U3075{} // ふ
-    pub resource U3076{} // ぶ
-    pub resource U3077{} // ぷ
-    pub resource U3078{} // へ
-    pub resource U3079{} // べ
-    pub resource U307A{} // ぺ
-    pub resource U307B{} // ほ
-    pub resource U307C{} // ぼ
-    pub resource U307D{} // ぽ
-    pub resource U307E{} // ま
-    pub resource U307F{} // み
-    pub resource U3080{} // む
-    pub resource U3081{} // め
-    pub resource U3082{} // も
-    pub resource U3083{} // ゃ
-    pub resource U3084{} // や
-    pub resource U3085{} // ゅ
-    pub resource U3086{} // ゆ
-    pub resource U3087{} // ょ
-    pub resource U3088{} // よ
-    pub resource U3089{} // ら
-    pub resource U308A{} // り
-    pub resource U308B{} // る
-    pub resource U308C{} // れ
-    pub resource U308D{} // ろ
-    pub resource U308E{} // ゎ
-    pub resource U308F{} // わ
-    pub resource U3090{} // ゐ
-    pub resource U3091{} // ゑ
-    pub resource U3092{} // を
-    pub resource U3093{} // ん
-    pub resource U3094{} // ゔ
-    pub resource U3000{} // 　 (Idepgraphic Space)
+access(all) contract ConcreteAlphabetsHiragana {
+    access(all) resource U3041{} // ぁ
+    access(all) resource U3042{} // あ
+    access(all) resource U3043{} // ぃ
+    access(all) resource U3044{} // い
+    access(all) resource U3045{} // ぅ
+    access(all) resource U3046{} // う
+    access(all) resource U3047{} // ぇ
+    access(all) resource U3048{} // え
+    access(all) resource U3049{} // ぉ
+    access(all) resource U304A{} // お
+    access(all) resource U304B{} // か
+    access(all) resource U304C{} // が
+    access(all) resource U304D{} // き
+    access(all) resource U304E{} // ぎ
+    access(all) resource U304F{} // く
+    access(all) resource U3050{} // ぐ
+    access(all) resource U3051{} // け
+    access(all) resource U3052{} // げ
+    access(all) resource U3053{} // こ
+    access(all) resource U3054{} // ご
+    access(all) resource U3055{} // さ
+    access(all) resource U3056{} // ざ
+    access(all) resource U3057{} // し
+    access(all) resource U3058{} // じ
+    access(all) resource U3059{} // す
+    access(all) resource U305A{} // ず
+    access(all) resource U305B{} // せ
+    access(all) resource U305C{} // ぜ
+    access(all) resource U305D{} // そ
+    access(all) resource U305E{} // ぞ
+    access(all) resource U305F{} // た
+    access(all) resource U3060{} // だ
+    access(all) resource U3061{} // ち
+    access(all) resource U3062{} // ぢ
+    access(all) resource U3063{} // っ
+    access(all) resource U3064{} // つ
+    access(all) resource U3065{} // づ
+    access(all) resource U3066{} // て
+    access(all) resource U3067{} // で
+    access(all) resource U3068{} // と
+    access(all) resource U3069{} // ど
+    access(all) resource U306A{} // な
+    access(all) resource U306B{} // に
+    access(all) resource U306C{} // ぬ
+    access(all) resource U306D{} // ね
+    access(all) resource U306E{} // の
+    access(all) resource U306F{} // は
+    access(all) resource U3070{} // ば
+    access(all) resource U3071{} // ぱ
+    access(all) resource U3072{} // ひ
+    access(all) resource U3073{} // び
+    access(all) resource U3074{} // ぴ
+    access(all) resource U3075{} // ふ
+    access(all) resource U3076{} // ぶ
+    access(all) resource U3077{} // ぷ
+    access(all) resource U3078{} // へ
+    access(all) resource U3079{} // べ
+    access(all) resource U307A{} // ぺ
+    access(all) resource U307B{} // ほ
+    access(all) resource U307C{} // ぼ
+    access(all) resource U307D{} // ぽ
+    access(all) resource U307E{} // ま
+    access(all) resource U307F{} // み
+    access(all) resource U3080{} // む
+    access(all) resource U3081{} // め
+    access(all) resource U3082{} // も
+    access(all) resource U3083{} // ゃ
+    access(all) resource U3084{} // や
+    access(all) resource U3085{} // ゅ
+    access(all) resource U3086{} // ゆ
+    access(all) resource U3087{} // ょ
+    access(all) resource U3088{} // よ
+    access(all) resource U3089{} // ら
+    access(all) resource U308A{} // り
+    access(all) resource U308B{} // る
+    access(all) resource U308C{} // れ
+    access(all) resource U308D{} // ろ
+    access(all) resource U308E{} // ゎ
+    access(all) resource U308F{} // わ
+    access(all) resource U3090{} // ゐ
+    access(all) resource U3091{} // ゑ
+    access(all) resource U3092{} // を
+    access(all) resource U3093{} // ん
+    access(all) resource U3094{} // ゔ
+    access(all) resource U3000{} // 　 (Idepgraphic Space)
 
-    pub fun newLetter(_ ch: Character): @AnyResource {
+    access(all) fun newLetter(_ ch: Character): @AnyResource {
         switch ch {
             case "ぁ": return <- create U3041()
             case "あ": return <- create U3042()
@@ -177,7 +177,7 @@ pub contract ConcreteAlphabetsHiragana {
         }
     }
 
-    pub fun newText(_ str: String): @[AnyResource] {
+    access(all) fun newText(_ str: String): @[AnyResource] {
         var res: @[AnyResource] <- []
         for ch in str {
             res.append(<- ConcreteAlphabetsHiragana.newLetter(ch))
@@ -185,7 +185,7 @@ pub contract ConcreteAlphabetsHiragana {
         return <- res
     }
 
-    pub fun toCharacter(_ letter: &AnyResource): Character {
+    access(all) fun toCharacter(_ letter: &AnyResource): Character {
         switch letter.getType() {
             case Type<@U3041>(): return "ぁ"
             case Type<@U3042>(): return "あ"
@@ -276,11 +276,11 @@ pub contract ConcreteAlphabetsHiragana {
         }
     }
 
-    pub fun toString(_ text: &[AnyResource]): String {
+    access(all) fun toString(_ text: &[AnyResource]): String {
         var res: String = ""
         var i = 0
         while i < text.length {
-            let letter = &text[i] as &AnyResource
+            let letter = text[i]
             res = res.concat(ConcreteAlphabetsHiragana.toCharacter(letter).toString())
             i = i + 1
         }

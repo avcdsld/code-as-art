@@ -1,61 +1,61 @@
 // You can create concrete poems with these alphabet resources.
 
-pub contract ConcreteAlphabets {
-    pub resource A {}
-    pub resource B {}
-    pub resource C {}
-    pub resource D {}
-    pub resource E {}
-    pub resource F {}
-    pub resource G {}
-    pub resource H {}
-    pub resource I {}
-    pub resource J {}
-    pub resource K {}
-    pub resource L {}
-    pub resource M {}
-    pub resource N {}
-    pub resource O {}
-    pub resource P {}
-    pub resource Q {}
-    pub resource R {}
-    pub resource S {}
-    pub resource T {}
-    pub resource U {}
-    pub resource V {}
-    pub resource W {}
-    pub resource X {}
-    pub resource Y {}
-    pub resource Z {}
-    pub resource a {}
-    pub resource b {}
-    pub resource c {}
-    pub resource d {}
-    pub resource e {}
-    pub resource f {}
-    pub resource g {}
-    pub resource h {}
-    pub resource i {}
-    pub resource j {}
-    pub resource k {}
-    pub resource l {}
-    pub resource m {}
-    pub resource n {}
-    pub resource o {}
-    pub resource p {}
-    pub resource q {}
-    pub resource r {}
-    pub resource s {}
-    pub resource t {}
-    pub resource u {}
-    pub resource v {}
-    pub resource w {}
-    pub resource x {}
-    pub resource y {}
-    pub resource z {}
-    pub resource _ {}
+access(all) contract ConcreteAlphabets {
+    access(all) resource A {}
+    access(all) resource B {}
+    access(all) resource C {}
+    access(all) resource D {}
+    access(all) resource E {}
+    access(all) resource F {}
+    access(all) resource G {}
+    access(all) resource H {}
+    access(all) resource I {}
+    access(all) resource J {}
+    access(all) resource K {}
+    access(all) resource L {}
+    access(all) resource M {}
+    access(all) resource N {}
+    access(all) resource O {}
+    access(all) resource P {}
+    access(all) resource Q {}
+    access(all) resource R {}
+    access(all) resource S {}
+    access(all) resource T {}
+    access(all) resource U {}
+    access(all) resource V {}
+    access(all) resource W {}
+    access(all) resource X {}
+    access(all) resource Y {}
+    access(all) resource Z {}
+    access(all) resource a {}
+    access(all) resource b {}
+    access(all) resource c {}
+    access(all) resource d {}
+    access(all) resource e {}
+    access(all) resource f {}
+    access(all) resource g {}
+    access(all) resource h {}
+    access(all) resource i {}
+    access(all) resource j {}
+    access(all) resource k {}
+    access(all) resource l {}
+    access(all) resource m {}
+    access(all) resource n {}
+    access(all) resource o {}
+    access(all) resource p {}
+    access(all) resource q {}
+    access(all) resource r {}
+    access(all) resource s {}
+    access(all) resource t {}
+    access(all) resource u {}
+    access(all) resource v {}
+    access(all) resource w {}
+    access(all) resource x {}
+    access(all) resource y {}
+    access(all) resource z {}
+    access(all) resource _ {}
 
-    pub fun newLetter(_ ch: Character): @AnyResource {
+    access(all) fun newLetter(_ ch: Character): @AnyResource {
         switch ch {
             case "A": return <- create A()
             case "B": return <- create B()
@@ -113,7 +113,7 @@ pub contract ConcreteAlphabets {
         }
     }
 
-    pub fun newText(_ str: String): @[AnyResource] {
+    access(all) fun newText(_ str: String): @[AnyResource] {
         var res: @[AnyResource] <- []
         for ch in str {
             res.append(<- ConcreteAlphabets.newLetter(ch))
@@ -121,7 +121,7 @@ pub contract ConcreteAlphabets {
         return <- res
     }
 
-    pub fun toCharacter(_ letter: &AnyResource): Character {
+    access(all) fun toCharacter(_ letter: &AnyResource): Character {
         switch letter.getType() {
             case Type<@A>(): return "A"
             case Type<@B>(): return "B"
@@ -180,11 +180,11 @@ pub contract ConcreteAlphabets {
         }
     }
 
-    pub fun toString(_ text: &[AnyResource]): String {
+    access(all) fun toString(_ text: &[AnyResource]): String {
         var res: String = ""
         var i = 0
         while i < text.length {
-            let letter = &text[i] as &AnyResource
+            let letter = text[i]
             res = res.concat(ConcreteAlphabets.toCharacter(letter).toString())
             i = i + 1
         }

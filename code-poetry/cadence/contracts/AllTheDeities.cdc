@@ -1,15 +1,15 @@
-pub contract AllTheDeities {
+access(all) contract AllTheDeities {
 
-    pub resource Deity {
-        pub let name: String
+    access(all) resource Deity {
+        access(all) let name: String
 
         init (name: String) {
             self.name = name
         }
     }
 
-    pub resource Creator {
-        pub fun create(name: String): @Deity {
+    access(all) resource Creator {
+        access(all) fun create(name: String): @Deity {
             return <- create Deity(name: name)
         }
     }

@@ -1,21 +1,21 @@
-pub contract Purification {
+access(all) contract Purification {
 
-    pub struct Desire {}
+    access(all) struct Desire {}
 
-    pub resource Human {
+    access(all) resource Human {
         access(contract) var desires: [Desire]
         init () { self.desires = [] }
-        pub fun live () { self.desires.append(Desire()) }
+        access(all) fun live () { self.desires.append(Desire()) }
         access(contract) fun purified () { self.desires.removeFirst() }
     }
 
-    pub fun purify(human: &Human) {
+    access(all) fun purify(human: &Human) {
         while human.desires.length > 0 {
             human.purified()
         }
     }
 
-    pub fun birth(): @Human {
+    access(all) fun birth(): @Human {
         return <- create Human()
     }
 }

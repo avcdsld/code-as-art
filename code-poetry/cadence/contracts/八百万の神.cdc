@@ -1,15 +1,15 @@
-pub contract 八百万の神 {
+access(all) contract 八百万の神 {
 
-    pub resource 神 {
-        pub let name: String
+    access(all) resource 神 {
+        access(all) let name: String
  
         init (name: String) {
             self.name = name
         }
     }
 
-    pub resource 創造主 {
-        pub fun create(name: String): @神 {
+    access(all) resource 創造主 {
+        access(all) fun create(name: String): @神 {
             return <- create 神(name: name)
         }
     }

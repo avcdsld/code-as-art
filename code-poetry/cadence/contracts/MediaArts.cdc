@@ -1,21 +1,21 @@
-pub contract MediaArts {
+access(all) contract MediaArts {
 
-    pub var latestID: UInt32
+    access(all) var latestID: UInt32
 
-    pub resource MediaArt {
-        pub let id: UInt32
+    access(all) resource MediaArt {
+        access(all) let id: UInt32
         
         init() {
             self.id = MediaArts.latestID
             MediaArts.latestID = MediaArts.latestID + 1
         }
         
-        pub fun isMediaArt(): Bool {
+        access(all) fun isMediaArt(): Bool {
             return self.id == MediaArts.latestID
         }
     }
 
-    pub fun create(): @MediaArt {
+    access(all) fun createMediaArt(): @MediaArt {
         return <- create MediaArt()
     }
 

@@ -1,7 +1,7 @@
-pub contract Universe {
+access(all) contract Universe {
 
-    pub resource Thing {
-        pub fun is_necessary(): Bool {
+    access(all) resource Thing {
+        access(all) fun is_necessary(): Bool {
             return true
         }
     }

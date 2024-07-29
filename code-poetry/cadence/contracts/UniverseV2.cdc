@@ -1,13 +1,13 @@
-pub contract UniverseV2 {
+access(all) contract UniverseV2 {
 
-    pub resource Thing {
-        pub var is_necessary: Bool
+    access(all) resource Thing {
+        access(all) var is_necessary: Bool
 
         init() {
             self.is_necessary = true
         }
 
-        pub fun set_necessary(necessary_or_not: Bool) {
+        access(all) fun set_necessary(necessary_or_not: Bool) {
             pre {
                 necessary_or_not == true: "Nothing is unnecessary in the universe."
             }
@@ -15,7 +15,7 @@ pub contract UniverseV2 {
         }
     }
 
-    pub fun create_thing(): @Thing {
+    access(all) fun create_thing(): @Thing {
         return <- create Thing()
     }
 }

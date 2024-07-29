@@ -1,18 +1,19 @@
-pub contract YaoyorozunoKami {
+access(all) contract YaoyorozunoKami {
 
-    pub resource Kami {
-        pub let name: String
+    access(all) resource Kami {
+        access(all) let name: String
         init (name: String) { self.name = name }
     }
 
-    pub resource Creator {
-        pub fun create(name: String): @Kami {
+    access(all) resource Creator {
+        access(all) fun createKami(name: String): @Kami {
             return <- create Kami(name: name)
         }
     }
 
     init() {
-        self.account.save(<- create Creator(), to: /storage/Creator)
-        self.account.link<&Creator>(/public/Creator, target: /storage/Creator)
+        self.account.storage.save(<- create Creator(), to: /storage/Creator)
+        let cap = self.account.capabilities.storage.issue<&Creator>(/storage/Creator)
+        self.account.capabilities.publish(cap, at: /public/Creator)
     }
 }

@@ -1,12 +1,11 @@
-pub contract ActualInfinity {
+access(all) contract ActualInfinity {
 
-    pub resource Creativity {
-        pub var creativity: @Creativity
+    access(all) resource Creativity {
+        access(all) var creativity: @Creativity
         init() { self.creativity <- create Creativity() }
-        destroy() { destroy self.creativity }
     }
 
-    pub fun create(): @Creativity {
+    access(all) fun Create(): @Creativity {
         return <- create Creativity()
     }
 }

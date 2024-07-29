@@ -1,17 +1,18 @@
-pub contract FirstFinalTouch {
+access(all) contract FirstFinalTouch {
 
-    pub resource Dragon {
-        pub(set) var eyes: [Bool; 2]?
+    access(all) resource Dragon {
+        access(all) var eyes: [Bool; 2]?
         init() { self.eyes = nil }
+        access(all) fun setEyes(_ eyes: [Bool; 2]) { self.eyes = eyes }
     }
 
-    pub var dragon: @[Dragon]
+    access(all) var dragon: @[Dragon]
 
     init() { self.dragon <- [<- create Dragon()] }
 
-    pub fun finalize() {
+    access(all) fun finalize() {
         var dragon <- self.dragon.removeFirst()
-        dragon.eyes = [true, true]
+        dragon.setEyes([true, true])
         destroy dragon
     }
 }

@@ -1,8 +1,8 @@
 // This contract was created for Tanabata contract
 
-pub contract DateUtil {
+access(all) contract DateUtil {
 
-    pub fun isJuly7(_ _unixTime: UFix64): Bool {
+    access(all) fun isJuly7(_ _unixTime: UFix64): Bool {
         let unixTime = Int(_unixTime)
         let secondsPerDay = 86400
         var days = unixTime / secondsPerDay
@@ -37,11 +37,11 @@ pub contract DateUtil {
         return month == 7 && day == 7
     }
 
-    pub fun isLeapYear(_ year: Int): Bool {
+    access(all) fun isLeapYear(_ year: Int): Bool {
         return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0
     }
 
-    pub fun  getDaysInMonth(_ year: Int, _ month: Int): Int {
+    access(all) fun  getDaysInMonth(_ year: Int, _ month: Int): Int {
         let daysInMonthMap = {
             1: 31,
             2: DateUtil.isLeapYear(year) ? 29 : 28,
