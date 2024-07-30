@@ -1,8 +1,8 @@
 // A gift is not a gift.
 //
 // This NFT will not emit Withdraw/Deposit events until it is recognized.
-// Unless the owner recognizes it himself, external viewers will probably not be able to see it.
-// Once recognized by the owner, it is no longer a gift.
+// Unless the owner recognizes it themselves, external viewers will likely not be able to see it.
+// Once recognized by the owner, it is no longer considered a gift.
 //
 // Note: Withdrawn/Deposited events are now automatically issued under the NFT standard for Cadence 1.0.
 // Therefore, the original concept of this contract is no longer achieved.
@@ -66,6 +66,7 @@ access(all) contract Gift: NonFungibleToken {
     access(all) resource interface GiftCollectionPublic {
         access(all) fun deposit(token: @{NonFungibleToken.NFT})
         access(all) view fun getIDs(): [UInt64]
+        access(all) view fun getLength(): Int
         access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}?
         access(all) view fun borrowGift(_ id: UInt64): &Gift.NFT? {
             post {
@@ -111,6 +112,10 @@ access(all) contract Gift: NonFungibleToken {
 
         access(all) view fun getIDs(): [UInt64] {
             return self.ownedNFTs.keys
+        }
+
+        access(all) view fun getLength(): Int {
+            return self.ownedNFTs.length
         }
 
         access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT}? {

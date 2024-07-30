@@ -1,5 +1,3 @@
-import "NonFungibleToken"
-import "MetadataViews"
 import "Gift"
 
 transaction(id: UInt64) {

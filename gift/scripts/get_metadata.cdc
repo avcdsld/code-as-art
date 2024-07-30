@@ -1,4 +1,3 @@
-import "MetadataViews"
 import "Gift"
 
 access(all) fun main(address: Address, id: UInt64): {Type: AnyStruct?} {

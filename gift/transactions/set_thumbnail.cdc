@@ -1,4 +1,3 @@
-import "NonFungibleToken"
 import "MetadataViews"
 import "Gift"
 
