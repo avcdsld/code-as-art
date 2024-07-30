@@ -22,16 +22,38 @@
   },
   "deployments": {
     "emulator": {
-      "emulator-account": ["NonFungibleToken", "MetadataViews", "ViewResolver", "Gift"]
+      "emulator-account": ["Gift", "GiftV2"]
     },
     "mainnet": {
-      "mainnet-account": ["Gift"]
+      "mainnet-account": ["Gift", "GiftV2"]
     }
   },
   "contracts": {
-    "NonFungibleToken": "./contracts/NonFungibleToken.cdc",
-    "MetadataViews": "./contracts/MetadataViews.cdc",
-    "ViewResolver": "./contracts/ViewResolver.cdc",
-    "Gift": "./contracts/Gift.cdc"
+    "NonFungibleToken": {
+			"source": "./contracts/NonFungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+    "MetadataViews": {
+			"source": "./contracts/MetadataViews.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"ViewResolver": {
+			"source": "./contracts/ViewResolver.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+    "Gift": "./contracts/Gift.cdc",
+    "GiftV2": "./contracts/GiftV2.cdc"
   }
 }
