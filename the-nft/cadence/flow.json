@@ -22,16 +22,37 @@
   },
   "deployments": {
     "emulator": {
-      "emulator-account": ["NonFungibleToken", "MetadataViews", "ViewResolver", "TheNFT"]
+      "emulator-account": ["TheNFT"]
     },
     "mainnet": {
       "mainnet-account": ["TheNFT"]
     }
   },
   "contracts": {
-    "NonFungibleToken": "./contracts/NonFungibleToken.cdc",
-    "MetadataViews": "./contracts/MetadataViews.cdc",
-    "ViewResolver": "./contracts/ViewResolver.cdc",
+    "MetadataViews": {
+			"source": "./contracts/MetadataViews.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"ViewResolver": {
+			"source": "./contracts/ViewResolver.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "./contracts/NonFungibleToken.cdc",
+			"aliases": {
+				"emulator": "f8d6e0586b0a20c7",
+				"mainnet": "1d7e57aa55817448",
+				"testnet": "631e88ae7f1d7c20"
+			}
+		},
     "TheNFT": "./contracts/TheNFT.cdc"
   }
 }
