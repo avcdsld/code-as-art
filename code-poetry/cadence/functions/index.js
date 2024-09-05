@@ -117,7 +117,7 @@ async function sendTx(txCode, callback) {
                 ...account,
                 tempId: `${addr}-${keyId}`,
                 addr: fcl.sansPrefix(addr),
-                sequenceNum: 732,
+                // sequenceNum: 732,
                 keyId: Number(keyId),
                 signingFunction: async (signable) => {
                     return {
