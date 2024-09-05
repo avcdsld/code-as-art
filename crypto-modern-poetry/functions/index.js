@@ -1,3 +1,4 @@
+// const { onRequest } = require("firebase-functions/v2/https");
 const { onSchedule } = require('firebase-functions/v2/scheduler');
 const logger = require('firebase-functions/logger');
 const { findMnemonic, getRecentMnemonic, writePoem } = require('./flow');
@@ -53,6 +54,48 @@ exports.generatePoem = onSchedule({
         throw e;
     }
 });
+
+// exports.runFindMnemonic = onRequest(async (_req, res) => {
+//     logger.info('findMnemonic:');
+//     try {
+//         await findMnemonic();
+//     } catch (e) {
+//         logger.error(e);
+//         throw e;
+//     }
+//     res.send("runFindMnemonic executed");
+// });
+
+// exports.runGeneratePoem = onRequest(async (_req, res) => {
+//     logger.info('generatePoem:');
+//     try {
+//         const mnemonic = await getRecentMnemonic();
+//         const words = mnemonic.words.join(' ');
+//         logger.info('words:', words);
+//         const poem = await genPoem({ words });
+//         logger.info('poem:', poem);
+
+//         const blockHeight = mnemonic.blockHeight;
+//         const svg = genSvg({ poem, words, blockHeight });
+//         logger.info('svg:', svg);
+
+//         const png = await svgToPng({ svg });
+//         logger.info('png convert done');
+
+//         await twitter.postTweetWithPng({ png, words });
+//         logger.info('tweet done');
+
+//         await bsky.postTweetWithPng({ png, words, poem });
+//         logger.info('bsky post done');
+
+//         await writePoem({ words, poem });
+//         logger.info('write done');
+//     } catch (e) {
+//         logger.error(e);
+//         throw e;
+//     }
+//     res.send("runGeneratePoem executed");
+// });
 
 // const { onRequest } = require('firebase-functions/v2/https');
 // exports.generateTst = onRequest(async (_req, res) => {

@@ -8,7 +8,7 @@ const network = 'mainnet';
 const txInfo = {
     mnemonicPoetryAddress: network === 'mainnet' ? '0x1717d6b5ee65530a' : 'TODO',
     senderAddress: network === 'mainnet' ? '0x1717d6b5ee65530a' : '0x374e363b89924b5e',
-    senderKeyId: 1,
+    senderKeyId: network === 'mainnet' ? 2 : 1,
 };
 
 exports.findMnemonic = async () => {
@@ -16,17 +16,15 @@ exports.findMnemonic = async () => {
 import MnemonicPoetry from ${txInfo.mnemonicPoetryAddress}
 
 transaction {
-prepare(signer: AuthAccount) {
-    if signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
-        signer.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
-
-        signer.link<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>(/public/MnemonicPoetryCollection, target: /storage/MnemonicPoetryCollection)
-        // let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>(/storage/MnemonicPoetryCollection)
-        // signer.capabilities.publish(cap, at: /public/MnemonicPoetryCollection)
+    prepare(signer: auth(BorrowValue, SaveValue, IssueStorageCapabilityController, PublishCapability) &Account) {
+        if signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
+            signer.storage.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
+            let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection>(/storage/MnemonicPoetryCollection)
+            signer.capabilities.publish(cap, at: /public/MnemonicPoetryCollection)
+        }
+        let poetryCollectionRef = signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
+        poetryCollectionRef.findMnemonic()
     }
-    let poetryCollectionRef = signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
-    poetryCollectionRef.findMnemonic()
-}
 }`;
     const args = [];
     const callback = () => {};
@@ -37,19 +35,16 @@ exports.getRecentMnemonic = async () => {
     const scriptCode = `\
 import MnemonicPoetry from ${txInfo.mnemonicPoetryAddress}
 
-pub fun main(): MnemonicPoetry.Mnemonic? {
+access(all) fun main(): MnemonicPoetry.Mnemonic? {
     let addr: Address = ${txInfo.mnemonicPoetryAddress}
-    // let collectionRef = getAccount(addr).capabilities
-    //                     .borrow<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>
-    //                     (/public/MnemonicPoetryCollection) ?? panic("Not Found")
-    let collectionRef = getAccount(addr).getCapability<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>
-                        (/public/MnemonicPoetryCollection)
+    let collectionRef = getAccount(addr)
+                        .capabilities.get<&MnemonicPoetry.PoetryCollection>(/public/MnemonicPoetryCollection)
                         .borrow() ?? panic("Not Found")
     let mnemonics = collectionRef.mnemonics
     if mnemonics.length == 0 {
         return nil
     }
-    return mnemonics[mnemonics.length - 1]
+    return collectionRef.getMnemonic(index: mnemonics.length - 1)
 }`;
     const args = [];
     return await runScript(scriptCode, args);
@@ -60,23 +55,22 @@ exports.writePoem = async ({ words, poem }) => {
 import MnemonicPoetry from ${txInfo.mnemonicPoetryAddress}
 
 transaction(words: String, poem: String) {
-    prepare(signer: AuthAccount) {
-        if signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
-            signer.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
-
-            signer.link<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>(/public/MnemonicPoetryCollection, target: /storage/MnemonicPoetryCollection)
-            // let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection{MnemonicPoetry.PoetryCollectionPublic}>(/storage/MnemonicPoetryCollection)
-            // signer.capabilities.publish(cap, at: /public/MnemonicPoetryCollection)
+    prepare(signer: auth(SaveValue, BorrowValue, StorageCapabilities, PublishCapability) &Account) {
+        if signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection) == nil {
+            signer.storage.save(<- MnemonicPoetry.createEmptyPoetryCollection(), to:  /storage/MnemonicPoetryCollection)
+            let cap = signer.capabilities.storage.issue<&MnemonicPoetry.PoetryCollection>(/storage/MnemonicPoetryCollection)
+            signer.capabilities.publish(cap, at: /public/MnemonicPoetryCollection)
         }
-        let poetryCollectionRef = signer.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
-        let mnemonics = poetryCollectionRef.mnemonics
+        let collectionRef = signer.storage.borrow<&MnemonicPoetry.PoetryCollection>(from: /storage/MnemonicPoetryCollection)!
+        let mnemonics = collectionRef.mnemonics
         if mnemonics.length == 0 {
-            panic("Not found mnemonic")
+            panic("Not found")
         }
 
         var i = mnemonics.length - 1
         while i >= 0 {
-            let mnemonic = mnemonics[i]
+            let mnemonic = collectionRef.getMnemonic(index: i)
+
             var w = ""
             var j = 0
             while j < mnemonic.words.length {
@@ -87,7 +81,7 @@ transaction(words: String, poem: String) {
                 j = j + 1
             }
             if w == words {
-                poetryCollectionRef.writePoem(mnemonic: mnemonic, poem: poem)
+                collectionRef.writePoem(mnemonic: mnemonic, poem: poem)
                 return
             }
             i = i - 1

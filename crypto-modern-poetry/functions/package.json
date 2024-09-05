@@ -14,10 +14,10 @@
   "main": "index.js",
   "dependencies": {
     "@atproto/api": "^0.9.6",
-    "@onflow/fcl": "^1.6.0",
+    "@onflow/fcl": "^1.11.0",
     "elliptic": "^6.5.4",
-    "firebase-admin": "^11.8.0",
-    "firebase-functions": "^4.4.1",
+    "firebase-admin": "^12.4.0",
+    "firebase-functions": "^5.1.1",
     "openai": "^4.14.0",
     "secp256k1": "^5.0.0",
     "sha3": "^2.1.4",
