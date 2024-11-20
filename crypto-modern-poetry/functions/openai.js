@@ -18,7 +18,8 @@ exports.genPoem = async ({ words }) => {
         messages: [{ role: 'user', content: prompt }],
         // model: 'gpt-3.5-turbo',
         // model: 'gpt-4', // 2023/10/30 - 2024/05/15
-        model: 'gpt-4o', // 2024/05/16 -
+        model: 'gpt-4o', // 2024/05/16 - 2024/11/20
+        model: 'o1-preview', // 2024/11/21 -
     }, {
         timeout: 60 * 1000,
     });
