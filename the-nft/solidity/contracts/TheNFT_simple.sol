@@ -18,7 +18,7 @@ contract TheNFT_simple is ERC721 {
 
     function tokenURI(uint256 id) public pure returns (string memory) {
         return string.concat(
-            '"data:application/json,"',
+            'data:application/json,',
             '{',
             '"name":"The NFT',
             '"description":"TheNFT",',
