@@ -19,7 +19,8 @@ exports.genPoem = async ({ words }) => {
         // model: 'gpt-3.5-turbo',
         // model: 'gpt-4', // 2023/10/30 - 2024/05/15
         // model: 'gpt-4o', // 2024/05/16 - 2024/11/20
-        model: 'o1-preview', // 2024/11/21 -
+        // model: 'o1-preview', // 2024/11/21 - 2025/05/02
+        model: 'o3', // 2025/05/03 -
     }, {
         timeout: 60 * 1000,
     });
