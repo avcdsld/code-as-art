@@ -9,7 +9,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "20"
+    "node": "22"
   },
   "main": "index.js",
   "dependencies": {
@@ -23,9 +23,6 @@
     "sha3": "^2.1.4",
     "sharp": "^0.32.6",
     "twitter-api-v2": "^1.15.2"
-  },
-  "devDependencies": {
-    "firebase-functions-test": "^3.1.0"
   },
   "private": true
 }
