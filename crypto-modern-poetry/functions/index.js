@@ -1,3 +1,5 @@
+process.env.FONTCONFIG_PATH = process.env.FONTCONFIG_PATH || __dirname;
+
 const { onSchedule } = require('firebase-functions/v2/scheduler');
 // const { onRequest } = require("firebase-functions/v2/https");
 const logger = require('firebase-functions/logger');
