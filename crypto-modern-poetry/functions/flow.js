@@ -27,8 +27,7 @@ transaction {
     }
 }`;
     const args = [];
-    const callback = () => {};
-    await sendTx(txCode, args, callback);
+    await sendTx(txCode, args);
 };
 
 exports.getRecentMnemonic = async () => {
@@ -93,70 +92,82 @@ transaction(words: String, poem: String) {
         fcl.arg(words, fcl.t.String),
         fcl.arg(poem, fcl.t.String),
     ];
-    const callback = () => {};
-    await sendTx(txCode, args, callback);
+    await sendTx(txCode, args);
 };
 
-async function runScript(scriptCode, args) {
-    try {
-        fcl.config({
-            'accessNode.api': network === 'mainnet' ? 'https://rest-mainnet.onflow.org' : 'https://rest-testnet.onflow.org',
-            'flow.network': network || 'testnet',
-        });
-        return await fcl.query({
-            cadence: scriptCode,
-            args,
-        });
-    } catch (e) {
-        console.log(e);
-    }
+function configureFcl() {
+    fcl.config({
+        'accessNode.api': network === 'mainnet' ? 'https://rest-mainnet.onflow.org' : 'https://rest-testnet.onflow.org',
+        'flow.network': network || 'testnet',
+    });
 }
 
-async function sendTx(txCode, args, callback) {
-    try {
-        fcl.config({
-            'accessNode.api': network === 'mainnet' ? 'https://rest-mainnet.onflow.org' : 'https://rest-testnet.onflow.org',
-            'flow.network': network || 'testnet',
-        });
-        const authz = async (account) => {
-            const addr = txInfo.senderAddress;
-            const keyId = txInfo.senderKeyId;
-            return {
-                ...account,
-                tempId: `${addr}-${keyId}`,
-                addr: fcl.sansPrefix(addr),
-                // sequenceNum: 1,
-                keyId: Number(keyId),
-                signingFunction: async (signable) => {
-                    return {
-                        addr: fcl.withPrefix(addr),
-                        keyId: Number(keyId),
-                        signature: sign(signable.message)
-                    }
+async function runScript(scriptCode, args) {
+    // Note: don't swallow errors here. A silent failure previously caused the
+    // caller to reuse stale on-chain data. Let the error propagate so the
+    // scheduled function fails loudly and shows up in the logs.
+    configureFcl();
+    return await fcl.query({
+        cadence: scriptCode,
+        args,
+    });
+}
+
+async function sendTx(txCode, args) {
+    configureFcl();
+    const authz = async (account) => {
+        const addr = txInfo.senderAddress;
+        const keyId = txInfo.senderKeyId;
+        return {
+            ...account,
+            tempId: `${addr}-${keyId}`,
+            addr: fcl.sansPrefix(addr),
+            // sequenceNum: 1,
+            keyId: Number(keyId),
+            signingFunction: async (signable) => {
+                return {
+                    addr: fcl.withPrefix(addr),
+                    keyId: Number(keyId),
+                    signature: sign(signable.message)
                 }
             }
-        };
-        const tx = await fcl.send([
-            fcl.transaction(txCode),
-            fcl.args(args),
-            fcl.payer(authz),
-            fcl.proposer(authz),
-            fcl.authorizations([authz]),
-            fcl.limit(9999)
-        ]);
-        logger.info(tx.transactionId);
-        const unsub = fcl.tx(tx).subscribe((currentTx) => {
-            try {
-                if (fcl.tx.isSealed(currentTx)) {
-                    console.log('Transaction is Sealed', currentTx.events.length > 0 ? currentTx.events[0].data : currentTx);
-                    callback();
-                    unsub();
-                }
-            } catch (e) {
-                logger.error(e);
-            }
-        });
-    } catch (e) {
-        console.log(e);
+        }
+    };
+    const tx = await fcl.send([
+        fcl.transaction(txCode),
+        fcl.args(args),
+        fcl.payer(authz),
+        fcl.proposer(authz),
+        fcl.authorizations([authz]),
+        fcl.limit(9999)
+    ]);
+    const txId = tx.transactionId;
+    logger.info('submitted tx', txId);
+
+    // Wait until the transaction is sealed and, crucially, verify it did not
+    // revert. A sealed transaction can still have failed at execution time
+    // (e.g. Error Code 1103 "storage limit check failed" when the account is
+    // out of FLOW). Poll the status instead of using a WebSocket subscription,
+    // which was unreliable in the Cloud Functions runtime.
+    const sealed = await waitForSeal(txId);
+    if (sealed.statusCode !== 0) {
+        throw new Error(`Transaction ${txId} reverted: ${sealed.errorMessage || 'unknown error'}`);
+    }
+    logger.info('tx sealed', txId);
+    return sealed;
+}
+
+async function waitForSeal(txId, { timeoutMs = 90000, intervalMs = 3000 } = {}) {
+    const deadline = Date.now() + timeoutMs;
+    // Flow tx status: 4 = Sealed, 5 = Expired
+    while (true) {
+        const status = await fcl.decode(await fcl.send([fcl.getTransactionStatus(txId)]));
+        if (status.status >= 4) {
+            return status;
+        }
+        if (Date.now() > deadline) {
+            throw new Error(`Transaction ${txId} not sealed within ${timeoutMs}ms (last status ${status.status})`);
+        }
+        await new Promise((r) => setTimeout(r, intervalMs));
     }
 }
