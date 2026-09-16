@@ -43,8 +43,15 @@ exports.generatePoem = onSchedule({
         const png = await svgToPng({ svg });
         logger.info('png convert done');
 
-        await twitter.postTweetWithPng({ png, words });
-        logger.info('tweet done');
+        // Isolate the Twitter/X post: since X moved to pay-per-use billing, a
+        // depleted-credits 402 (or any other X failure) must not take down the
+        // rest of the pipeline (Bluesky + on-chain writePoem). Log and continue.
+        try {
+            await twitter.postTweetWithPng({ png, words });
+            logger.info('tweet done');
+        } catch (e) {
+            logger.error('tweet failed (continuing):', e);
+        }
 
         await bsky.postTweetWithPng({ png, words, poem });
         logger.info('bsky post done');
