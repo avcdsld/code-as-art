@@ -1,0 +1,14 @@
+BEGIN
+  PRINT "Hello, Art World";
+  DISPLAY "Hello, Art World";
+  WRITE "Hello, Art World";
+  DRAW "Hello, Art World";
+  PAINT "Hello, Art World";
+  SCULPT "Hello, Art World";
+  SPEAK "Hello, Art World";
+  SING "Hello, Art World";
+  PHOTOGRAPH "Hello, Art World";
+  COMPOSE "Hello, Art World";
+  DESIGN "Hello, Art World";
+  ACT "Hello, Art World";
+END

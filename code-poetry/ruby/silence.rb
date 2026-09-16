@@ -1,0 +1,1 @@
+("silence".length).zero?

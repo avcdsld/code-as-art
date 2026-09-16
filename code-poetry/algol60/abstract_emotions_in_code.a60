@@ -1,0 +1,36 @@
+BEGIN
+  REAL curiosity := 0.618;
+  REAL excitement := 1.618;
+  REAL anticipation := 0.382;
+  REAL reflection := 0.5;
+  REAL joy := 0.8;
+  REAL sadness := 0.2;
+  REAL anger := 0.9;
+  REAL surprise := 0.7;
+
+  FOR t := 0.0 STEP 0.1 UNTIL 1.0 DO
+  BEGIN
+    REAL x := t;
+    REAL y := (SIN(curiosity * 3.14159265 * t) +
+               COS(excitement * 3.14159265 * t) +
+               TAN(joy * 3.14159265 * t) -
+               COT(sadness * 3.14159265 * t) +
+               EXP(-anticipation * t) +
+               reflection * LOG(t + 1.0) +
+               (anger - surprise) * t);
+    OUTREAL(x, 4); OUTREAL(y, 4);
+    OUTIMAGE;
+  END;
+
+  REAL now := 2024.0713;
+  REAL past := 2020.0101;
+  REAL future := 2030.0101;
+  REAL present := (now - past) / (future - past);
+
+  REAL essence := (curiosity + excitement +
+                   anticipation + reflection +
+                   joy + sadness + anger +
+                   surprise) * present;
+  OUTREAL(essence, 4);
+  OUTIMAGE;
+END
